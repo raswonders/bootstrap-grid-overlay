@@ -1,1 +1,1 @@
-alert('Content Script has run');
+alert('Content script has run');
