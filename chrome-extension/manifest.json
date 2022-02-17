@@ -2,5 +2,9 @@
     "name": "Bootstrap grid overlay",
     "description": "Displays overlay for default bootstrap grid",
     "version": "0.1",
-    "manifest_version": 3
+    "manifest_version": 3,
+    "permissions": ["activeTab", "scripting"],
+    "background": {
+      "service_worker": "background.js"
+    }
   }
