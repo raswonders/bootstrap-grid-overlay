@@ -11,7 +11,6 @@
 
   let rows = document.body.querySelectorAll(".row");
 
-  appendStyles();
   /* Creates overlay div and appends it to page */
   let overlayEl = document.createElement("div");
   overlayEl.id = "grid-overlay";
@@ -22,35 +21,22 @@
   rows.forEach(row => {
     visibleOverlays.set(row, initGridOverlay(row));
   });
+
   function cleanUp() {
     /* remove grid element from DOM */
     let overlayEl = document.querySelector("#grid-overlay");
     if (overlayEl) {
       overlayEl.parentNode.removeChild(overlayEl);
     }
-    /* remove stylesheet element from DOM */
 
-    let styleSheetEl = document.querySelector("#grid-overlay-style");
-    if (styleSheetEl) {
-      styleSheetEl.parentNode.removeChild(styleSheetEl);
-    }
     /* remove event listeners from DOM */
-
     window.removeEventListener("resize", updateOverlays);
     window.removeEventListener("scroll", updateOverlays);
-    /* clear localStorage */
 
+    /* clear localStorage */
     localStorage.removeItem("bootstrap-grid-overlay");
   }
-  /* Append grid-overlay styles */
 
-  function appendStyles() {
-    let styles = ` #grid-overlay { --green: rgba(194, 221, 182, 0.4); --blue: rgba(141, 187, 226, 0.4); --pink: rgba(255, 0, 220, 0.6); --white: rgba(255, 255, 255, 0.8); pointer-events: none; position: fixed; display: block; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; z-index: 2; } .grid-overlay-row { position: absolute; display: flex; flex-wrap: nowrap; outline: 1px dotted var(--pink); /* Counters the fact grid-overlay isn't enclosed in container */ margin-left: 0; margin-right: 0; margin-top: 0; } .grid-overlay-col { min-width: 0; min-height: 0; color: var(--white); background-image:linear-gradient(to bottom,  var(--blue) 0%,  var(--blue) 100%), linear-gradient(to bottom, var(--green) 0%, var(--green) 100%); background-clip: content-box, padding-box; } .grid-overlay-col div { text-align: center; } `;
-    let styleSheet = document.createElement("style");
-    styleSheet.id = "grid-overlay-style";
-    styleSheet.innerText = styles;
-    document.head.appendChild(styleSheet);
-  }
   /* Inits grid overlay */
   function initGridOverlay(rowElem) {
     let allowedClassesRegExp = /\b(gx-[0-5]|gy-[0-5]|row)\b/;
@@ -72,6 +58,7 @@
     }
     return document.getElementById("grid-overlay").appendChild(gridOverlay);
   }
+
   /* Updates position of single overlay */
   function positionGridOverlay(row, grid) {
     /* learns position of a row */
@@ -83,6 +70,7 @@
     grid.style.width = `${row.clientWidth}px`;
     grid.style.height = `${row.clientHeight}px`;
   }
+
   /* Updates position of all overlays on page */
   let updateOverlayTimeout = 0;
   function updateOverlays() {
