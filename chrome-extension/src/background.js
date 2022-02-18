@@ -4,7 +4,7 @@ chrome.action.onClicked.addListener(tab => {
     files: [ "src/content.js" ]
   });
   chrome.scripting.insertCSS({
-    target { tabId: tab.id },
+    target: { tabId: tab.id },
     files: [ "src/grid-overlay.css" ]
   });
 });
