@@ -60,15 +60,16 @@
   }
 
   /* Updates position of single overlay */
-  function positionGridOverlay(row, grid) {
-    /* learns position of a row */
-    rowRect = row.getBoundingClientRect();
-    rowBorderWidth = (rowRect.width - row.clientWidth) / 2;
-    /* positions grid overlay */
-    grid.style.left = `${rowRect.left + rowBorderWidth}px`;
-    grid.style.top = `${rowRect.top + rowBorderWidth}px`;
-    grid.style.width = `${row.clientWidth}px`;
-    grid.style.height = `${row.clientHeight}px`;
+  function positionOverlayElement(realElem, overlayElem) {
+    /* learns position of a real element */
+    realElemRect = realElem.getBoundingClientRect();
+    realElemBorderWidth = (realElemRect.width - realElem.clientWidth) / 2;
+
+    /* positions overlay element */
+    overlayElem.style.left = `${realElemRect.left + realElemBorderWidth}px`;
+    overlayElem.style.top = `${realElemRect.top + realElemBorderWidth}px`;
+    overlayElem.style.width = `${realElem.clientWidth}px`;
+    overlayElem.style.height = `${realElem.clientHeight}px`;
   }
 
   /* Updates position of all overlays on page */
@@ -78,7 +79,7 @@
     clearTimeout(updateOverlayTimeout);
     updateOverlayTimeout = setTimeout(() => {
       for (let [row, grid] of visibleOverlays.entries()) {
-        positionGridOverlay(row, grid);
+        positionOverlayElement(row, grid);
       }
     }, 0);
   }
