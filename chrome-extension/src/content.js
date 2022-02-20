@@ -85,4 +85,7 @@
   updateOverlays();
   window.addEventListener("resize", updateOverlays);
   window.addEventListener("scroll", updateOverlays);
+  window.addEventListener("unload", () => {
+    localStorage.removeItem("bootstrap-grid-overlay");
+  })
 })();
