@@ -8,7 +8,7 @@
   }
 
   /* Detects all bootstrap5 container and row elements */
-  let containers = document.body.querySelectorAll('[class="^container"]');
+  let containers = document.body.querySelectorAll('[class^="container"]');
   let rows = document.body.querySelectorAll(".row");
 
   /* Creates overlay div and appends it to page */
@@ -18,8 +18,11 @@
 
   /* Inits row:grid Map() for all rows which has been detected */
   let visibleOverlays = new Map();
-  rows.forEach(row => {
-    visibleOverlays.set(row, createRowOverlay(row));
+  containers.forEach(el => {
+    visibleOverlays.set(el, createContainerOverlay(el));
+  });
+  rows.forEach(el => {
+    visibleOverlays.set(el, createRowOverlay(el));
   });
 
   function cleanUp() {
@@ -37,18 +40,18 @@
     localStorage.removeItem("bootstrap-grid-overlay");
   }
 
-  /* Inits grid overlay */
+  /* Creates row overlay */
   function createRowOverlay(rowElem) {
     let allowedClassesRegExp = /\b(gx-[0-5]|gy-[0-5]|row)\b/;
     gridOverlay = document.createElement("div");
-    /* Copy classes from row to overlay */
+    /* Copies classes from real row to overlay */
     rowElem.classList.forEach(cls => {
       if (allowedClassesRegExp.test(cls)) {
         gridOverlay.classList.add(cls);
       }
     });
     gridOverlay.classList.add("grid-overlay-row");
-    /* Create overlay columns */
+    /* Creates overlay columns */
     for (let i = 1; i <= 12; i++) {
       columnEl = document.createElement("div");
       columnEl.innerHTML = `<div>${i}</div>`;
@@ -56,6 +59,19 @@
       columnEl.classList.add("col-1");
       gridOverlay.appendChild(columnEl);
     }
+    return document.getElementById("grid-overlay").appendChild(gridOverlay);
+  }
+
+  function createContainerOverlay(containerElem) {
+    let allowedClassesRegExp = /\b(container|container-(fluid|sm|md|lg|xl|xxl))\b/;
+    gridOverlay = document.createElement("div");
+    /* Copies classes from real el to overlay */
+    containerElem.classList.forEach(cls => {
+      if (allowedClassesRegExp.test(cls)) {
+        gridOverlay.classList.add(cls);
+      }
+    });
+    gridOverlay.classList.add("grid-overlay-container");
     return document.getElementById("grid-overlay").appendChild(gridOverlay);
   }
 
