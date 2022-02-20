@@ -7,16 +7,16 @@
     localStorage.setItem("bootstrap-grid-overlay", "1");
   }
 
-  /* Detects all bootstrap row elements */
-
+  /* Detects all bootstrap5 container and row elements */
+  let containers = document.body.querySelectorAll('[class="^container"]');
   let rows = document.body.querySelectorAll(".row");
 
   /* Creates overlay div and appends it to page */
   let overlayEl = document.createElement("div");
   overlayEl.id = "grid-overlay";
   document.body.appendChild(overlayEl);
-  /* Inits row:grid Map() for all rows which has been detected */
 
+  /* Inits row:grid Map() for all rows which has been detected */
   let visibleOverlays = new Map();
   rows.forEach(row => {
     visibleOverlays.set(row, createRowOverlay(row));
