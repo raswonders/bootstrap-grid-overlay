@@ -19,6 +19,7 @@
   position: absolute;
   outline: 1px dotted var(--pink);
   /* Counters the fact grid-overlay isn't enclosed in container */
+  flex-wrap: nowrap !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
   margin-top: 0 !important;
