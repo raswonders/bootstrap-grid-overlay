@@ -1,8 +1,12 @@
 #grid-overlay {
   --green: rgba(194, 221, 182, 0.4);
   --blue: rgba(141, 187, 226, 0.4);
-  --pink: rgba(255, 0, 220, 0.6);
+  --lightgreen: rgba(194, 221, 182, 0.1);
+  --lightblue: rgba(141, 187, 226, 0.1);
+  --lightpink: rgba(255, 0, 220, 0.1);
+  --pink: rgba(255, 0, 220, 0.4);
   --white: rgba(255, 255, 255, 0.8);
+  --transparent: rgba(255, 255, 255, 1);
   pointer-events: none;
   position: fixed;
   display: block;
@@ -23,6 +27,13 @@
   margin-left: 0 !important;
   margin-right: 0 !important;
   margin-top: 0 !important;
+}
+
+.grid-overlay-container {
+  position: absolute;
+  outline: 1px dotted var(--lightpink);
+  background-image: linear-gradient(to bottom, var(--lightblue) 0%, var(--lightblue) 100%), linear-gradient(to bottom, var(--lightgreen) 0%, var(--lightgreen) 100%);
+  background-clip: content-box, padding-box;
 }
 
 .grid-overlay-col {
