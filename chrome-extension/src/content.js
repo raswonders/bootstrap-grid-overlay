@@ -94,8 +94,8 @@
     /* resets timeout of scheduled update */
     clearTimeout(updateOverlayTimeout);
     updateOverlayTimeout = setTimeout(() => {
-      for (let [row, grid] of visibleOverlays.entries()) {
-        positionOverlayElement(row, grid);
+      for (let [realElem, overlayElem] of visibleOverlays.entries()) {
+        positionOverlayElement(realElem, overlayElem);
       }
     }, 0);
   }
