@@ -19,7 +19,7 @@
 
   let visibleOverlays = new Map();
   rows.forEach(row => {
-    visibleOverlays.set(row, initGridOverlay(row));
+    visibleOverlays.set(row, createRowOverlay(row));
   });
 
   function cleanUp() {
@@ -38,7 +38,7 @@
   }
 
   /* Inits grid overlay */
-  function initGridOverlay(rowElem) {
+  function createRowOverlay(rowElem) {
     let allowedClassesRegExp = /\b(gx-[0-5]|gy-[0-5]|row)\b/;
     gridOverlay = document.createElement("div");
     /* Copy classes from row to overlay */
