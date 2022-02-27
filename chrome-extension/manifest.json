@@ -4,7 +4,9 @@
     "version": "0.1",
     "manifest_version": 3,
     "permissions": ["activeTab", "scripting"],
-    "action": {},
+    "action": {
+      "default_popup": "src/popup.html"
+    },
     "background": {
       "service_worker": "src/background.js"
     }
