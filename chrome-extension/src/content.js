@@ -1,11 +1,18 @@
+// allow script to be detected from extension by replying "ping" msgs
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.message === "ping") {
+    sendResponse({ message: "pong" });
+  }
+});
+
 (function() {
   /* On/Off switch */
-  if (localStorage.getItem("bootstrap-grid-overlay")) {
-    cleanUp();
-    return;
-  } else {
-    localStorage.setItem("bootstrap-grid-overlay", "1");
-  }
+  // if (localStorage.getItem("bootstrap-grid-overlay")) {
+  //   cleanUp();
+  //   return;
+  // } else {
+  //   localStorage.setItem("bootstrap-grid-overlay", "1");
+  // }
 
   /* Detects all bootstrap5 container and row elements */
   let containers = document.body.querySelectorAll('[class^="container"]');
@@ -104,5 +111,5 @@
   window.addEventListener("scroll", updateOverlays);
   window.addEventListener("unload", () => {
     localStorage.removeItem("bootstrap-grid-overlay");
-  })
+  });
 })();
