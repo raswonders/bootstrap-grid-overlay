@@ -1,4 +1,6 @@
 (async function() {
+  window.resizeTo(300, 300);
+
   let tabId = await getCurrentTabId();
   let hasScript = await hasContentScript(tabId);
 
@@ -8,7 +10,25 @@
   }
 
   let elements = await getOverlayElements(tabId);
+  // create list item from elements
+  // append it to body element
+  displayElements(elements)
 })();
+
+function displayElements(elements) {
+  let listOfElements = createListElement(elements)
+  document.body.append(listOfElements);
+}
+
+function createListElement(elements) {
+  let listElement = document.createElement('ul');
+  elements.forEach((element) => {
+    let item = document.createElement('li');
+    item.innerText = element[0]; 
+    listElement.append(item)
+  })
+  return listElement;
+} 
 
 function getOverlayElements(tabId) {
   return new Promise((resolve, reject) => {
