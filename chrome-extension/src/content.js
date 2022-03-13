@@ -1,11 +1,22 @@
-// allow script to be detected from extension by replying "ping" msgs
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.message === "ping") {
-    sendResponse({ message: "pong" });
-  }
-});
-
 (function() {
+  let bootstrapRE = /^(row|container|container\-(fluid|sm|md|lg|xl|xxl))$/;
+
+  // allow script to be detected from extension by replying "ping" msgs
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    // if (request.message === "ping") {
+    //   sendResponse({ message: "pong" });
+    // }
+    switch (request.message) {
+      case "ping":
+        sendResponse({ message: "pong" });
+        break;
+      case "list":
+        sendResponse(overlay.list());
+        break;
+    }
+    return true;
+  });
+
   /* On/Off switch */
   // if (localStorage.getItem("bootstrap-grid-overlay")) {
   //   cleanUp();
@@ -13,15 +24,50 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   // } else {
   //   localStorage.setItem("bootstrap-grid-overlay", "1");
   // }
+  
+  class Overlay {
+    constructor(bootstrapElements) {
+      // Create map of bootstrap and overlay DOM elements
+      this.elementsMap = new Map();
+      bootstrapElements.forEach(elem => {
+        this.elementsMap.set(elem, null);
+      });
+
+      // Append overlay root element to DOM, if it's not already
+      let overlayRoot = document.querySelector("#grid-overlay");
+      if (!overlayRoot) {
+        overlayRoot = document.createElement("div");
+        overlayRoot.id = "grid-overlay";
+        overlayRoot = document.body.appendChild(overlayRoot);
+      }
+      overlayRoot.innerHTML = "";
+      this.overlayRoot = overlayRoot;
+    }
+
+    list() {
+      // Return info about element and whether its overlay is being shown
+      let mirror = [];
+      for (let [realElem, overlayElem] of this.elementsMap) {
+        let name = "unknown";
+        realElem.classList.forEach(cls => {
+          if (bootstrapRE.test(cls)) {
+            name = cls;
+          }
+        });
+        mirror.push([name, Boolean(overlayElem)]);
+      }
+      return mirror;
+    }
+  }
+
+  let bootstrapElements = document.querySelectorAll(
+    '[class^="container"], [class^="row"]'
+  );
+  let overlay = new Overlay(bootstrapElements);
 
   /* Detects all bootstrap5 container and row elements */
   let containers = document.body.querySelectorAll('[class^="container"]');
   let rows = document.body.querySelectorAll(".row");
-
-  /* Creates overlay div and appends it to page */
-  let overlayEl = document.createElement("div");
-  overlayEl.id = "grid-overlay";
-  document.body.appendChild(overlayEl);
 
   /* Inits row:grid Map() for all rows which has been detected */
   let visibleOverlays = new Map();

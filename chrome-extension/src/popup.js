@@ -6,7 +6,22 @@
     await injectContentScript(tabId, "src/content.js");
     await injectStyles(tabId, "src/grid-overlay.css");
   }
+
+  let elements = await getOverlayElements(tabId);
 })();
+
+function getOverlayElements(tabId) {
+  return new Promise((resolve, reject) => {
+    let msgObj = { message: "list" };
+    chrome.tabs.sendMessage(tabId, msgObj, response => {
+      if (!response) {
+        chrome.runtime.lastError && reject(false);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+}
 
 // identify tab, that it's running in
 async function getCurrentTabId() {
