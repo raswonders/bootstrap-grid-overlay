@@ -13,6 +13,9 @@
       case "list":
         sendResponse(overlay.list());
         break;
+      case "add":
+        overlay.add(+request.index);
+        break;
     }
     return true;
   });
@@ -58,6 +61,29 @@
       }
       return mirror;
     }
+
+    add(index) {
+      let element = this.getRealElement(index);
+      this.elementsMap.set(element, createOverlayElement(element));
+      this.updateOverlays();
+    }
+
+    getRealElement(index) {
+      return Array.from(this.elementsMap.keys())[index];
+    }
+
+    updateOverlays(overlay) {
+      let updateOverlayTimeout = 0;
+      /* resets timeout of scheduled update */
+      clearTimeout(updateOverlayTimeout);
+      updateOverlayTimeout = setTimeout(() => {
+        for (let [realElem, overlayElem] of this.elementsMap.entries()) {
+          if (realElem && overlayElem) {
+            positionOverlayElement(realElem, overlayElem);
+          }
+        }
+      }, 0);
+    }
   }
 
   let bootstrapElements = document.querySelectorAll(
@@ -65,9 +91,23 @@
   );
   let overlay = new Overlay(bootstrapElements);
 
+  overlay.add(1);
+  overlay.add(2);
+  overlay.add(3);
+  overlay.add(4);
+  overlay.add(5);
+
   /* Detects all bootstrap5 container and row elements */
   let containers = document.body.querySelectorAll('[class^="container"]');
   let rows = document.body.querySelectorAll(".row");
+
+  function createOverlayElement(element) {
+    if (element.classList.contains("row")) {
+      return createRowOverlay(element);
+    } else {
+      return createContainerOverlay(element);
+    }
+  }
 
   // /* Inits row:grid Map() for all rows which has been detected */
   // let visibleOverlays = new Map();
@@ -86,8 +126,8 @@
     }
 
     /* remove event listeners from DOM */
-    window.removeEventListener("resize", updateOverlays);
-    window.removeEventListener("scroll", updateOverlays);
+    window.removeEventListener("resize", overlay.updateOverlays);
+    window.removeEventListener("scroll", overlay.updateOverlays);
 
     /* clear localStorage */
     localStorage.removeItem("bootstrap-grid-overlay");
@@ -142,8 +182,8 @@
   }
 
   // /* Updates position of all overlays on page */
-  // let updateOverlayTimeout = 0;
   // function updateOverlays(overlay) {
+  //   let updateOverlayTimeout = 0;
   //   /* resets timeout of scheduled update */
   //   clearTimeout(updateOverlayTimeout);
   //   updateOverlayTimeout = setTimeout(() => {
@@ -153,14 +193,14 @@
   //     }
   //   }, 0);
   // }
-  // updateOverlays();
-  // window.addEventListener("resize", function(event) {
-  //   updateOverlays(overlay);
-  // });
-  // window.addEventListener("scroll", function(event) {
-  //   updateOverlays(overlay);
-  // });
-  // window.addEventListener("unload", () => {
-  //   localStorage.removeItem("bootstrap-grid-overlay");
-  // });
+
+  window.addEventListener("resize", function(event) {
+    overlay.updateOverlays(overlay);
+  });
+  window.addEventListener("scroll", function(event) {
+    overlay.updateOverlays(overlay);
+  });
+  window.addEventListener("unload", () => {
+    localStorage.removeItem("bootstrap-grid-overlay");
+  });
 })();
