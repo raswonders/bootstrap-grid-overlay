@@ -24,7 +24,7 @@
   // } else {
   //   localStorage.setItem("bootstrap-grid-overlay", "1");
   // }
-  
+
   class Overlay {
     constructor(bootstrapElements) {
       // Create map of bootstrap and overlay DOM elements
@@ -69,14 +69,14 @@
   let containers = document.body.querySelectorAll('[class^="container"]');
   let rows = document.body.querySelectorAll(".row");
 
-  /* Inits row:grid Map() for all rows which has been detected */
-  let visibleOverlays = new Map();
-  containers.forEach(el => {
-    visibleOverlays.set(el, createContainerOverlay(el));
-  });
-  rows.forEach(el => {
-    visibleOverlays.set(el, createRowOverlay(el));
-  });
+  // /* Inits row:grid Map() for all rows which has been detected */
+  // let visibleOverlays = new Map();
+  // containers.forEach(el => {
+  //   visibleOverlays.set(el, createContainerOverlay(el));
+  // });
+  // rows.forEach(el => {
+  //   visibleOverlays.set(el, createRowOverlay(el));
+  // });
 
   function cleanUp() {
     /* remove grid element from DOM */
@@ -141,21 +141,26 @@
     overlayElem.style.height = `${realElem.clientHeight}px`;
   }
 
-  /* Updates position of all overlays on page */
-  let updateOverlayTimeout = 0;
-  function updateOverlays() {
-    /* resets timeout of scheduled update */
-    clearTimeout(updateOverlayTimeout);
-    updateOverlayTimeout = setTimeout(() => {
-      for (let [realElem, overlayElem] of visibleOverlays.entries()) {
-        positionOverlayElement(realElem, overlayElem);
-      }
-    }, 0);
-  }
-  updateOverlays();
-  window.addEventListener("resize", updateOverlays);
-  window.addEventListener("scroll", updateOverlays);
-  window.addEventListener("unload", () => {
-    localStorage.removeItem("bootstrap-grid-overlay");
-  });
+  // /* Updates position of all overlays on page */
+  // let updateOverlayTimeout = 0;
+  // function updateOverlays(overlay) {
+  //   /* resets timeout of scheduled update */
+  //   clearTimeout(updateOverlayTimeout);
+  //   updateOverlayTimeout = setTimeout(() => {
+  //     for (let [realElem, overlayElem] of overlay.elementsMap.entries()) {
+  //       if (realElem && overlayElem)
+  //         positionOverlayElement(realElem, overlayElem);
+  //     }
+  //   }, 0);
+  // }
+  // updateOverlays();
+  // window.addEventListener("resize", function(event) {
+  //   updateOverlays(overlay);
+  // });
+  // window.addEventListener("scroll", function(event) {
+  //   updateOverlays(overlay);
+  // });
+  // window.addEventListener("unload", () => {
+  //   localStorage.removeItem("bootstrap-grid-overlay");
+  // });
 })();
