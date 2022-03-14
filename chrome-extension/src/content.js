@@ -68,12 +68,23 @@
       this.updateOverlays();
     }
 
+    remove(index) {
+      let element = this.getRealElement(index);
+      let overlayElement = this.getOverlayElement(index)
+      overlayElement.parentNode.removeChild(overlayElement);
+      this.elementsMap.set(element, null);
+      this.updateOverlays();
+    }
+
     getRealElement(index) {
       return Array.from(this.elementsMap.keys())[index];
     }
 
-    updateOverlays(overlay) {
-      let updateOverlayTimeout = 0;
+    getOverlayElement(index) {
+      return Array.from(this.elementsMap.values())[index];
+    }
+
+    updateOverlays(updateOverlayTimeout = 0) {
       /* resets timeout of scheduled update */
       clearTimeout(updateOverlayTimeout);
       updateOverlayTimeout = setTimeout(() => {
@@ -90,12 +101,6 @@
     '[class^="container"], [class^="row"]'
   );
   let overlay = new Overlay(bootstrapElements);
-
-  overlay.add(1);
-  overlay.add(2);
-  overlay.add(3);
-  overlay.add(4);
-  overlay.add(5);
 
   /* Detects all bootstrap5 container and row elements */
   let containers = document.body.querySelectorAll('[class^="container"]');
