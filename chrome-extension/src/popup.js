@@ -10,25 +10,43 @@
   }
 
   let elements = await getOverlayElements(tabId);
-  // create list item from elements
-  // append it to body element
-  displayElements(elements)
+  updateElementsInDOM(elements);
 })();
 
-function displayElements(elements) {
-  let listOfElements = createListElement(elements)
-  document.body.append(listOfElements);
+function toggleOverlayElement(checkboxElem) {
+  if (checkboxElem.checked) {
+    console.log(`${checkboxElem.id} toggled on`);
+  } else {
+    console.log(`${checkboxElem.id} toggled off`);
+  }
 }
 
-function createListElement(elements) {
-  let listElement = document.createElement('ul');
-  elements.forEach((element) => {
-    let item = document.createElement('li');
-    item.innerText = element[0]; 
-    listElement.append(item)
-  })
-  return listElement;
-} 
+function updateElementsInDOM(elements) {
+  let contentHTML = createListOfElementsHTML(elements);
+  document.querySelector(".element-list").innerHTML = contentHTML;
+  let nodelist = document.querySelectorAll("input");
+  addActionToCheckboxes(nodelist);
+}
+
+function addActionToCheckboxes(nodelist) {
+  Array.from(nodelist).forEach(node => {
+    node.addEventListener("change", function(event) {
+      toggleOverlayElement(this);
+    });
+  });
+}
+
+function createListOfElementsHTML(elements) {
+  let resultHTML = `<div><input type="checkbox" id="checkbox-all"><label for="checkbox-all">all</label></div>`;
+  elements.forEach((element, index) => {
+    let id = `checkbox${index}`;
+    let name = element[0];
+    let state = element[1] ? "checked" : "";
+    resultHTML += `<div><input type="checkbox" id="${id}" ${state}><label for="${id}">${name}</label></div>`;
+  });
+
+  return resultHTML;
+}
 
 function getOverlayElements(tabId) {
   return new Promise((resolve, reject) => {
