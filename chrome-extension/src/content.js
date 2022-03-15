@@ -3,9 +3,6 @@
 
   // allow script to be detected from extension by replying "ping" msgs
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    // if (request.message === "ping") {
-    //   sendResponse({ message: "pong" });
-    // }
     switch (request.message) {
       case "ping":
         sendResponse({ message: "pong" });
@@ -22,14 +19,6 @@
     }
     return true;
   });
-
-  /* On/Off switch */
-  // if (localStorage.getItem("bootstrap-grid-overlay")) {
-  //   cleanUp();
-  //   return;
-  // } else {
-  //   localStorage.setItem("bootstrap-grid-overlay", "1");
-  // }
 
   class Overlay {
     constructor(bootstrapElements) {
@@ -117,15 +106,6 @@
     }
   }
 
-  // /* Inits row:grid Map() for all rows which has been detected */
-  // let visibleOverlays = new Map();
-  // containers.forEach(el => {
-  //   visibleOverlays.set(el, createContainerOverlay(el));
-  // });
-  // rows.forEach(el => {
-  //   visibleOverlays.set(el, createRowOverlay(el));
-  // });
-
   function cleanUp() {
     /* remove grid element from DOM */
     let overlayEl = document.querySelector("#grid-overlay");
@@ -188,19 +168,6 @@
     overlayElem.style.width = `${realElem.clientWidth}px`;
     overlayElem.style.height = `${realElem.clientHeight}px`;
   }
-
-  // /* Updates position of all overlays on page */
-  // function updateOverlays(overlay) {
-  //   let updateOverlayTimeout = 0;
-  //   /* resets timeout of scheduled update */
-  //   clearTimeout(updateOverlayTimeout);
-  //   updateOverlayTimeout = setTimeout(() => {
-  //     for (let [realElem, overlayElem] of overlay.elementsMap.entries()) {
-  //       if (realElem && overlayElem)
-  //         positionOverlayElement(realElem, overlayElem);
-  //     }
-  //   }, 0);
-  // }
 
   window.addEventListener("resize", function(event) {
     overlay.updateOverlays(overlay);
