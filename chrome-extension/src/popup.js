@@ -10,28 +10,62 @@
   }
 
   let elements = await getOverlayElements(tabId);
-  updateElementsInDOM(elements);
+  updateElementsInDOM(elements, tabId);
 })();
 
-function toggleOverlayElement(checkboxElem) {
+function toggleOverlayElement(checkboxElem, tabId) {
+  let msgObj = { index: checkboxElem.dataset.index };
   if (checkboxElem.checked) {
-    console.log(`${checkboxElem.id} toggled on`);
+    msgObj["message"] = "add";
+    chrome.tabs.sendMessage(tabId, msgObj);
   } else {
-    console.log(`${checkboxElem.id} toggled off`);
+    msgObj["message"] = "remove";
+    chrome.tabs.sendMessage(tabId, msgObj);
   }
 }
 
-function updateElementsInDOM(elements) {
-  let contentHTML = createListOfElementsHTML(elements);
-  document.querySelector(".element-list").innerHTML = contentHTML;
-  let nodelist = document.querySelectorAll("input");
-  addActionToCheckboxes(nodelist);
+function toggleAllOverlays(checkboxElem) {
+  let checkboxes = document.querySelectorAll(".bootstrap-element");
+  if (checkboxElem.checked) {
+    // check all checkboxes which are not checked yet
+    checkboxes.forEach(checkbox => {
+      if (!checkbox.checked) {
+        checkbox.click();
+      }
+    });
+  } else {
+    // uncheck all checkboxes which are currently checked
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked) {
+        checkbox.click();
+      }
+    });
+  }
 }
 
-function addActionToCheckboxes(nodelist) {
+function updateElementsInDOM(elements, tabId) {
+  let contentHTML = createListOfElementsHTML(elements);
+  document.querySelector(".element-list").innerHTML = contentHTML;
+
+  // Add event listeners to bootstrap element checkboxes
+  let checkboxes = document.querySelectorAll(".bootstrap-element");
+  checkboxes.forEach(node => {
+    node.addEventListener("change", function(event) {
+      toggleOverlayElement(this, tabId);
+    });
+  });
+
+  // Add event listener for all checkbox
+  let all = document.querySelector("#checkbox-all");
+  all.addEventListener("change", function(event) {
+    toggleAllOverlays(this);
+  });
+}
+
+function addActionToCheckboxes(nodelist, tabId) {
   Array.from(nodelist).forEach(node => {
     node.addEventListener("change", function(event) {
-      toggleOverlayElement(this);
+      toggleOverlayElement(this, tabId);
     });
   });
 }
@@ -42,7 +76,7 @@ function createListOfElementsHTML(elements) {
     let id = `checkbox${index}`;
     let name = element[0];
     let state = element[1] ? "checked" : "";
-    resultHTML += `<div><input type="checkbox" id="${id}" ${state}><label for="${id}">${name}</label></div>`;
+    resultHTML += `<div><input type="checkbox" class="bootstrap-element" id="${id}" data-index="${index}" ${state}><label for="${id}">${name}</label></div>`;
   });
 
   return resultHTML;
@@ -82,7 +116,6 @@ function hasContentScript(tabId) {
   });
 }
 
-// let details = { target: { tabId: currentTab.id }, files: ["src/content.js"] };
 function injectContentScript(tabId, filePath) {
   return new Promise((resolve, reject) => {
     let details = {

@@ -16,6 +16,9 @@
       case "add":
         overlay.add(+request.index);
         break;
+      case "remove":
+        overlay.remove(+request.index);
+        break;
     }
     return true;
   });
