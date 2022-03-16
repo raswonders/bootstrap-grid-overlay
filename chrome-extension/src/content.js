@@ -58,6 +58,7 @@
       let element = this.getRealElement(index);
       this.elementsMap.set(element, createOverlayElement(element));
       this.updateOverlays();
+      element.scrollIntoView();
     }
 
     remove(index) {
@@ -66,6 +67,7 @@
       overlayElement.parentNode.removeChild(overlayElement);
       this.elementsMap.set(element, null);
       this.updateOverlays();
+      element.scrollIntoView();
     }
 
     getRealElement(index) {
