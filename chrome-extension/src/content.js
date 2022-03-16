@@ -16,6 +16,9 @@
       case "remove":
         overlay.remove(+request.index);
         break;
+      case "addAll":
+        overlay.allState = (request.state)
+        break;
     }
     return true;
   });
@@ -37,11 +40,13 @@
       }
       overlayRoot.innerHTML = "";
       this.overlayRoot = overlayRoot;
+      this.allState = false;
     }
 
     list() {
       // Return info about element and whether its overlay is being shown
       let mirror = [];
+
       for (let [realElem, overlayElem] of this.elementsMap) {
         let name = "unknown";
         realElem.classList.forEach(cls => {
@@ -51,6 +56,9 @@
         });
         mirror.push([name, Boolean(overlayElem)]);
       }
+
+      // "all" checkbox state
+      mirror.push(["all", this.allState])
       return mirror;
     }
 

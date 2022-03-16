@@ -10,6 +10,7 @@
   }
 
   let elements = await getOverlayElements(tabId);
+  debugger;
   updateElementsInDOM(elements, tabId);
 })();
 
@@ -24,9 +25,11 @@ function toggleOverlayElement(checkboxElem, tabId) {
   }
 }
 
-function toggleAllOverlays(checkboxElem) {
+function toggleAllOverlays(checkboxElem, tabId) {
+  let msgObj = { message: "addAll" };
   let checkboxes = document.querySelectorAll(".bootstrap-element");
   if (checkboxElem.checked) {
+    msgObj["state"] = "checked";
     // check all checkboxes which are not checked yet
     checkboxes.forEach(checkbox => {
       if (!checkbox.checked) {
@@ -34,6 +37,7 @@ function toggleAllOverlays(checkboxElem) {
       }
     });
   } else {
+    msgObj["state"] = "unchecked";
     // uncheck all checkboxes which are currently checked
     checkboxes.forEach(checkbox => {
       if (checkbox.checked) {
@@ -41,14 +45,14 @@ function toggleAllOverlays(checkboxElem) {
       }
     });
   }
+  chrome.tabs.sendMessage(tabId, msgObj);
 }
 
 function updateElementsInDOM(elements, tabId) {
   elementList = document.querySelector(".element-list");
 
   if (elements.length === 0) {
-    elementList.innerHTML =
-      "<p>No elements has been found.</p>";
+    elementList.innerHTML = "<p>No elements has been found.</p>";
   } else {
     elementList.innerHTML = createListOfElementsHTML(elements);
 
@@ -63,7 +67,7 @@ function updateElementsInDOM(elements, tabId) {
     // Add event listener for all checkbox
     let all = document.querySelector("#checkbox-all");
     all.addEventListener("change", function(event) {
-      toggleAllOverlays(this);
+      toggleAllOverlays(this, tabId);
     });
   }
 }
@@ -77,12 +81,14 @@ function addActionToCheckboxes(nodelist, tabId) {
 }
 
 function createListOfElementsHTML(elements) {
-  let resultHTML = `<div><input type="checkbox" id="checkbox-all"><label for="checkbox-all">all</label></div>`;
+  let allState = elements.pop()[1] ? "checked" : "";
+  let resultHTML = `<div><input type="checkbox" id="checkbox-all" ${allState}><label for="checkbox-all">all</label></div>`;
+
   elements.forEach((element, index) => {
     let id = `checkbox${index}`;
     let name = element[0];
-    let state = element[1] ? "checked" : "";
-    resultHTML += `<div><input type="checkbox" class="bootstrap-element" id="${id}" data-index="${index}" ${state}><label for="${id}">${name}</label></div>`;
+    let elementState = element[1] ? "checked" : "";
+    resultHTML += `<div><input type="checkbox" class="bootstrap-element" id="${id}" data-index="${index}" ${elementState}><label for="${id}">${name}</label></div>`;
   });
 
   return resultHTML;
