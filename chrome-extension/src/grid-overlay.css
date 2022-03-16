@@ -39,6 +39,8 @@
 .grid-overlay-col {
   min-width: 0;
   min-height: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   color: var(--white);
   background-image: linear-gradient(to bottom, var(--blue) 0%, var(--blue) 100%), linear-gradient(to bottom, var(--green) 0%, var(--green) 100%);
   background-clip: content-box, padding-box;
