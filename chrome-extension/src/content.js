@@ -123,7 +123,7 @@
 
   /* Creates row overlay */
   function createRowOverlay(rowElem) {
-    let allowedClassesRegExp = /\b(gx-[0-5]|gy-[0-5]|row)\b/;
+    let allowedClassesRegExp = /\b(no-gutters|gx-[0-5]|g-((sm|md|lg|xl|xxl)-)?[0-5]|row)\b/;
     gridOverlay = document.createElement("div");
     /* Copies classes from real row to overlay */
     rowElem.classList.forEach(cls => {
