@@ -44,22 +44,28 @@ function toggleAllOverlays(checkboxElem) {
 }
 
 function updateElementsInDOM(elements, tabId) {
-  let contentHTML = createListOfElementsHTML(elements);
-  document.querySelector(".element-list").innerHTML = contentHTML;
+  elementList = document.querySelector(".element-list");
 
-  // Add event listeners to bootstrap element checkboxes
-  let checkboxes = document.querySelectorAll(".bootstrap-element");
-  checkboxes.forEach(node => {
-    node.addEventListener("change", function(event) {
-      toggleOverlayElement(this, tabId);
+  if (elements.length === 0) {
+    elementList.innerHTML =
+      "<p>No elements has been found.</p>";
+  } else {
+    elementList.innerHTML = createListOfElementsHTML(elements);
+
+    // Add event listeners to bootstrap element checkboxes
+    let checkboxes = document.querySelectorAll(".bootstrap-element");
+    checkboxes.forEach(node => {
+      node.addEventListener("change", function(event) {
+        toggleOverlayElement(this, tabId);
+      });
     });
-  });
 
-  // Add event listener for all checkbox
-  let all = document.querySelector("#checkbox-all");
-  all.addEventListener("change", function(event) {
-    toggleAllOverlays(this);
-  });
+    // Add event listener for all checkbox
+    let all = document.querySelector("#checkbox-all");
+    all.addEventListener("change", function(event) {
+      toggleAllOverlays(this);
+    });
+  }
 }
 
 function addActionToCheckboxes(nodelist, tabId) {
