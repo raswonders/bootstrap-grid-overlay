@@ -75,7 +75,6 @@
       overlayElement.parentNode.removeChild(overlayElement);
       this.elementsMap.set(element, null);
       this.updateOverlays();
-      element.scrollIntoView();
     }
 
     getRealElement(index) {
