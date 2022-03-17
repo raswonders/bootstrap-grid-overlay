@@ -4,7 +4,7 @@
   --lightgreen: rgba(194, 221, 182, 0.1);
   --lightblue: rgba(141, 187, 226, 0.1);
   --lightpink: rgba(255, 0, 220, 0.1);
-  --pink: rgba(255, 0, 220, 0.4);
+  --pink: rgba(255, 0, 220, 0.3);
   --white: rgba(255, 255, 255, 0.8);
   --transparent: rgba(255, 255, 255, 1);
   pointer-events: none;
@@ -21,12 +21,21 @@
 
 .grid-overlay-row {
   position: absolute;
-  outline: 1px dotted var(--pink);
+  /* outline: 1px dotted var(--pink); */
   /* Counters the fact grid-overlay isn't enclosed in container */
   flex-wrap: nowrap !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
   margin-top: 0 !important;
+}
+
+.grid-overlay-row > * {
+  box-sizing: border-box;
+  border-right: 1px dotted var(--white);
+}
+
+.grid-overlay-row div:nth-last-child(1) {
+  border: 0;
 }
 
 .grid-overlay-container {
@@ -39,6 +48,8 @@
 .grid-overlay-col {
   min-width: 0;
   min-height: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   color: var(--white);
   background-image: linear-gradient(to bottom, var(--blue) 0%, var(--blue) 100%), linear-gradient(to bottom, var(--green) 0%, var(--green) 100%);
   background-clip: content-box, padding-box;

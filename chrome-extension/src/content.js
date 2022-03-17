@@ -1,29 +1,119 @@
 (function() {
-  /* On/Off switch */
-  if (localStorage.getItem("bootstrap-grid-overlay")) {
-    cleanUp();
-    return;
-  } else {
-    localStorage.setItem("bootstrap-grid-overlay", "1");
+  let bootstrapRE = /^(row|container|container\-(fluid|sm|md|lg|xl|xxl))$/;
+
+  // allow script to be detected from extension by replying "ping" msgs
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    switch (request.message) {
+      case "ping":
+        sendResponse({ message: "pong" });
+        break;
+      case "list":
+        sendResponse(overlay.list());
+        break;
+      case "add":
+        overlay.add(+request.index);
+        break;
+      case "remove":
+        overlay.remove(+request.index);
+        break;
+      case "addAll":
+        overlay.allState = (request.state)
+        break;
+    }
+    return true;
+  });
+
+  class Overlay {
+    constructor(bootstrapElements) {
+      // Create map of bootstrap and overlay DOM elements
+      this.elementsMap = new Map();
+      bootstrapElements.forEach(elem => {
+        this.elementsMap.set(elem, null);
+      });
+
+      // Append overlay root element to DOM, if it's not already
+      let overlayRoot = document.querySelector("#grid-overlay");
+      if (!overlayRoot) {
+        overlayRoot = document.createElement("div");
+        overlayRoot.id = "grid-overlay";
+        overlayRoot = document.body.appendChild(overlayRoot);
+      }
+      overlayRoot.innerHTML = "";
+      this.overlayRoot = overlayRoot;
+      this.allState = false;
+    }
+
+    list() {
+      // Return info about element and whether its overlay is being shown
+      let mirror = [];
+
+      for (let [realElem, overlayElem] of this.elementsMap) {
+        let name = "unknown";
+        realElem.classList.forEach(cls => {
+          if (bootstrapRE.test(cls)) {
+            name = cls;
+          }
+        });
+        mirror.push([name, Boolean(overlayElem)]);
+      }
+
+      // "all" checkbox state
+      mirror.push(["all", this.allState])
+      return mirror;
+    }
+
+    add(index) {
+      let element = this.getRealElement(index);
+      this.elementsMap.set(element, createOverlayElement(element));
+      this.updateOverlays();
+      element.scrollIntoView();
+    }
+
+    remove(index) {
+      let element = this.getRealElement(index);
+      let overlayElement = this.getOverlayElement(index)
+      overlayElement.parentNode.removeChild(overlayElement);
+      this.elementsMap.set(element, null);
+      this.updateOverlays();
+    }
+
+    getRealElement(index) {
+      return Array.from(this.elementsMap.keys())[index];
+    }
+
+    getOverlayElement(index) {
+      return Array.from(this.elementsMap.values())[index];
+    }
+
+    updateOverlays(updateOverlayTimeout = 0) {
+      /* resets timeout of scheduled update */
+      clearTimeout(updateOverlayTimeout);
+      updateOverlayTimeout = setTimeout(() => {
+        for (let [realElem, overlayElem] of this.elementsMap.entries()) {
+          if (realElem && overlayElem) {
+            positionOverlayElement(realElem, overlayElem);
+          }
+        }
+      }, 0);
+    }
   }
+
+  let bootstrapElements = document.querySelectorAll(
+    '[class^="container"], [class^="row"]'
+  );
+  let overlay = new Overlay(bootstrapElements);
 
   /* Detects all bootstrap5 container and row elements */
   let containers = document.body.querySelectorAll('[class^="container"]');
   let rows = document.body.querySelectorAll(".row");
 
-  /* Creates overlay div and appends it to page */
-  let overlayEl = document.createElement("div");
-  overlayEl.id = "grid-overlay";
-  document.body.appendChild(overlayEl);
-
-  /* Inits row:grid Map() for all rows which has been detected */
-  let visibleOverlays = new Map();
-  containers.forEach(el => {
-    visibleOverlays.set(el, createContainerOverlay(el));
-  });
-  rows.forEach(el => {
-    visibleOverlays.set(el, createRowOverlay(el));
-  });
+  function createOverlayElement(element) {
+    if (element.classList.contains("row")) {
+      return createRowOverlay(element);
+    } else {
+      return createContainerOverlay(element);
+    }
+  }
 
   function cleanUp() {
     /* remove grid element from DOM */
@@ -33,8 +123,8 @@
     }
 
     /* remove event listeners from DOM */
-    window.removeEventListener("resize", updateOverlays);
-    window.removeEventListener("scroll", updateOverlays);
+    window.removeEventListener("resize", overlay.updateOverlays);
+    window.removeEventListener("scroll", overlay.updateOverlays);
 
     /* clear localStorage */
     localStorage.removeItem("bootstrap-grid-overlay");
@@ -42,7 +132,7 @@
 
   /* Creates row overlay */
   function createRowOverlay(rowElem) {
-    let allowedClassesRegExp = /\b(gx-[0-5]|gy-[0-5]|row)\b/;
+    let allowedClassesRegExp = /\b(no-gutters|gx-[0-5]|g-((sm|md|lg|xl|xxl)-)?[0-5]|row)\b/;
     gridOverlay = document.createElement("div");
     /* Copies classes from real row to overlay */
     rowElem.classList.forEach(cls => {
@@ -88,21 +178,13 @@
     overlayElem.style.height = `${realElem.clientHeight}px`;
   }
 
-  /* Updates position of all overlays on page */
-  let updateOverlayTimeout = 0;
-  function updateOverlays() {
-    /* resets timeout of scheduled update */
-    clearTimeout(updateOverlayTimeout);
-    updateOverlayTimeout = setTimeout(() => {
-      for (let [realElem, overlayElem] of visibleOverlays.entries()) {
-        positionOverlayElement(realElem, overlayElem);
-      }
-    }, 0);
-  }
-  updateOverlays();
-  window.addEventListener("resize", updateOverlays);
-  window.addEventListener("scroll", updateOverlays);
+  window.addEventListener("resize", function(event) {
+    overlay.updateOverlays(overlay);
+  });
+  window.addEventListener("scroll", function(event) {
+    overlay.updateOverlays(overlay);
+  });
   window.addEventListener("unload", () => {
     localStorage.removeItem("bootstrap-grid-overlay");
-  })
+  });
 })();
