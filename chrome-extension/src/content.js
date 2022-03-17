@@ -3,6 +3,7 @@
 
   // allow script to be detected from extension by replying "ping" msgs
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    let response = { success: true }
     switch (request.message) {
       case "ping":
         sendResponse({ message: "pong" });
@@ -12,12 +13,15 @@
         break;
       case "add":
         overlay.add(+request.index);
+        sendResponse(response);
         break;
       case "remove":
         overlay.remove(+request.index);
+        sendResponse(response);
         break;
       case "addAll":
-        overlay.allState = (request.isChecked)
+        overlay.addAll(request.isChecked);
+        sendResponse(response);
         break;
     }
     return true;
@@ -57,7 +61,7 @@
         mirror.push([name, Boolean(overlayElem)]);
       }
       // "all" checkbox state
-      mirror.push(["all", this.allState])
+      mirror.push(["all", this.allState]);
       return mirror;
     }
 
@@ -68,9 +72,13 @@
       element.scrollIntoView();
     }
 
+    addAll(state) {
+      overlay.allState = state;
+    }
+
     remove(index) {
       let element = this.getRealElement(index);
-      let overlayElement = this.getOverlayElement(index)
+      let overlayElement = this.getOverlayElement(index);
       overlayElement.parentNode.removeChild(overlayElement);
       this.elementsMap.set(element, null);
       this.updateOverlays();
