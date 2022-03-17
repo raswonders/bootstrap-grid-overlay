@@ -29,7 +29,7 @@ function toggleAllOverlays(checkboxElem, tabId) {
   let msgObj = { message: "addAll" };
   let checkboxes = Array.from(document.querySelectorAll(".bootstrap-element"));
   if (checkboxElem.checked) {
-    msgObj["state"] = "checked";
+    msgObj["isChecked"] = true;
     // check all checkboxes which are not checked yet
     checkboxes.reverse().forEach(checkbox => {
       if (!checkbox.checked) {
@@ -37,7 +37,7 @@ function toggleAllOverlays(checkboxElem, tabId) {
       }
     });
   } else {
-    msgObj["state"] = "unchecked";
+    msgObj["isChecked"] = false;
     // uncheck all checkboxes which are currently checked
     checkboxes.reverse().forEach(checkbox => {
       if (checkbox.checked) {

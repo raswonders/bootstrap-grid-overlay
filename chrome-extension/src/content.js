@@ -17,7 +17,7 @@
         overlay.remove(+request.index);
         break;
       case "addAll":
-        overlay.allState = (request.state)
+        overlay.allState = (request.isChecked)
         break;
     }
     return true;
@@ -56,7 +56,6 @@
         });
         mirror.push([name, Boolean(overlayElem)]);
       }
-
       // "all" checkbox state
       mirror.push(["all", this.allState])
       return mirror;
