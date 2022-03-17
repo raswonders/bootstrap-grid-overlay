@@ -1,7 +1,12 @@
 (async function() {
   window.resizeTo(300, 300);
+  let tab = await getCurrentTabId();
+  let tabId = tab.id;
+  
+  if (isChromeUrl(tab.url)) {
+    return
+  }
 
-  let tabId = await getCurrentTabId();
   let hasScript = await hasContentScript(tabId);
 
   if (!hasScript) {
@@ -12,6 +17,10 @@
   let elements = await getOverlayElements(tabId);
   updateElementsInDOM(elements, tabId);
 })();
+
+function isChromeUrl(url) {
+  return /^chrome:\/\//.test(url);
+}
 
 function toggleOverlayElement(checkboxElem, tabId) {
   let msgObj = { index: checkboxElem.dataset.index };
@@ -50,9 +59,8 @@ function toggleAllOverlays(checkboxElem, tabId) {
 function updateElementsInDOM(elements, tabId) {
   elementList = document.querySelector(".element-list");
 
-  if (elements.length <= 1) {
-    elementList.innerHTML = "<p>No elements has been found.</p>";
-  } else {
+  if (elements.length > 1) {
+    hideNoElementsMsg();
     elementList.innerHTML = createListOfElementsHTML(elements);
 
     // Add event listeners to bootstrap element checkboxes
@@ -69,6 +77,10 @@ function updateElementsInDOM(elements, tabId) {
       toggleAllOverlays(this, tabId);
     });
   }
+}
+
+function hideNoElementsMsg() {
+  document.querySelector(".no-elements").style.display = "none";
 }
 
 function addActionToCheckboxes(nodelist, tabId) {
@@ -110,7 +122,7 @@ function getOverlayElements(tabId) {
 async function getCurrentTabId() {
   let queryOptions = { active: true, currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
-  return tab.id;
+  return tab;
 }
 
 // resolves as true if content script is already injected
