@@ -51,7 +51,7 @@ function toggleAllOverlays(checkboxElem, tabId) {
 function updateElementsInDOM(elements, tabId) {
   elementList = document.querySelector(".element-list");
 
-  if (elements.length === 0) {
+  if (elements.length <= 1) {
     elementList.innerHTML = "<p>No elements has been found.</p>";
   } else {
     elementList.innerHTML = createListOfElementsHTML(elements);
