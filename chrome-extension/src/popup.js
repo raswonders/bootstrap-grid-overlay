@@ -10,7 +10,6 @@
   }
 
   let elements = await getOverlayElements(tabId);
-  debugger;
   updateElementsInDOM(elements, tabId);
 })();
 
