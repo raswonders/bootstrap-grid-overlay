@@ -9,7 +9,8 @@
         sendResponse(response);
         break;
       case "list":
-        sendResponse(overlay.list());
+        response.list = overlay.list()
+        sendResponse(response);
         break;
       case "add":
         overlay.add(+request.index);

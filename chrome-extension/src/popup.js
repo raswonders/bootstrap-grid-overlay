@@ -2,9 +2,9 @@
   window.resizeTo(300, 300);
   let tab = await getCurrentTabId();
   let tabId = tab.id;
-  
+
   if (isChromeUrl(tab.url)) {
-    return
+    return;
   }
 
   let hasScript = await hasContentScript(tabId);
@@ -110,9 +110,11 @@ function getOverlayElements(tabId) {
     let msgObj = { message: "list" };
     chrome.tabs.sendMessage(tabId, msgObj, response => {
       if (!response) {
-        chrome.runtime.lastError && reject(false);
+        reject(chrome.runtime.lastError);
+      } else if (!response.list) {
+        reject(new Error("content script did not reply list message"));
       } else {
-        resolve(response);
+        resolve(response.list);
       }
     });
   });
