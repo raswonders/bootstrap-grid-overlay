@@ -6,7 +6,7 @@
     let response = { success: true }
     switch (request.message) {
       case "ping":
-        sendResponse({ message: "pong" });
+        sendResponse(response);
         break;
       case "list":
         sendResponse(overlay.list());
