@@ -180,10 +180,15 @@
     realElemBorderWidth = (realElemRect.width - realElem.clientWidth) / 2;
 
     /* positions overlay element */
-    overlayElem.style.left = `${realElemRect.left + realElemBorderWidth}px`;
-    overlayElem.style.top = `${realElemRect.top + realElemBorderWidth}px`;
+    if (overlayElem.classList.contains("expanded")) {
+      overlayElem.style.height = `100vh`;
+      overlayElem.style.top = `0px`
+    } else {
+      overlayElem.style.top = `${realElemRect.top + realElemBorderWidth}px`;
+      overlayElem.style.height = `${realElem.clientHeight}px`;
+    }
     overlayElem.style.width = `${realElem.clientWidth}px`;
-    overlayElem.style.height = `${realElem.clientHeight}px`;
+    overlayElem.style.left = `${realElemRect.left + realElemBorderWidth}px`;
   }
 
   window.addEventListener("resize", function(event) {
