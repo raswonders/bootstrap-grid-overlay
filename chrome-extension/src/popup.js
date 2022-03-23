@@ -11,7 +11,7 @@
 
   if (!hasScript) {
     await injectContentScript(tabId, "src/content.js");
-    await injectStyles(tabId, "src/grid-overlay.css");
+    await injectStyles(tabId, "src/css/grid-overlay.css");
   }
 
   let elements = await getOverlayElements(tabId);
