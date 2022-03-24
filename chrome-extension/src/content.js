@@ -25,7 +25,11 @@
         sendResponse(response);
         break;
       case "addAll":
-        overlay.addAll(request.isChecked);
+        if (request.isChecked) {
+          overlay.addAll()
+        } else {
+          overlay.removeAll()
+        }
         sendResponse(response);
         break;
     }
@@ -87,8 +91,12 @@
       this.updateOverlays();
     }
 
-    addAll(state) {
-      overlay.allState = state;
+    addAll() {
+      overlay.allState = true;
+    }
+
+    removeAll() {
+      overlay.allState = false;
     }
 
     remove(index) {
