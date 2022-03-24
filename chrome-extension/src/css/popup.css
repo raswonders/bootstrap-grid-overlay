@@ -1,12 +1,46 @@
 body {
-    min-width: 150px;
+  min-width: 150px;
 }
 
 .heading {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .element-list {
-    display: flex;
-    flex-flow: column;
+  display: flex;
+  flex-flow: column;
+}
+
+.wrapper {
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+  margin-top: 5px;
+}
+
+.btn {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border: 1px black solid;
+  border-radius: 2px;
+
+  padding: 0;
+  color: white;
+  cursor: inherit;
+  font-size: 15px;
+  text-align: center;
+  line-height: 18px;
+}
+
+.wrapper[data-state="off"] .btn {
+  background: white;
+}
+
+.wrapper[data-state="on"] .btn {
+  background: purple;
+}
+
+.wrapper[data-state="expanded"] .btn {
+  background: purple;
 }

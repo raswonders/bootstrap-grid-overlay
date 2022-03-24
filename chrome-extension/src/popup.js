@@ -21,15 +21,28 @@
     return /^chrome:\/\//.test(url);
   }
 
-  function toggleOverlayElement(checkboxElem, tabId) {
-    let msgObj = { index: checkboxElem.dataset.index };
-    if (checkboxElem.checked) {
-      msgObj["message"] = "add";
-      chrome.tabs.sendMessage(tabId, msgObj);
-    } else {
-      msgObj["message"] = "remove";
-      chrome.tabs.sendMessage(tabId, msgObj);
+  function toggleOverlayElement(element, tabId) {
+    let msgObj = { index: element.dataset.index };
+
+    switch(element.dataset.state) {
+      case "off":
+        element.dataset.state = "on";
+        element.children[0].innerHTML = `<i class="fas fa-check"></i>`;
+        msgObj["message"] = "add";
+        break;
+      case "on": 
+        element.dataset.state = "expanded";
+        element.children[0].innerHTML = `<i class="fas fa-expand"></i>`;
+        msgObj["message"] = "expand";
+        break;
+      case "expanded":
+        element.dataset.state = "off";
+        element.children[0].innerHTML = "";
+        msgObj["message"] = "remove";
+        break;
     }
+
+    chrome.tabs.sendMessage(tabId, msgObj);
   }
 
   function toggleAllOverlays(checkboxElem, tabId) {
@@ -65,18 +78,18 @@
       elementList.innerHTML = createListOfElementsHTML(elements);
 
       // Add event listeners to bootstrap element checkboxes
-      let checkboxes = document.querySelectorAll(".bootstrap-element");
+      let checkboxes = document.querySelectorAll(".three-state");
       checkboxes.forEach(node => {
-        node.addEventListener("change", function(event) {
+        node.addEventListener("click", function(event) {
           toggleOverlayElement(this, tabId);
         });
       });
 
       // Add event listener for all checkbox
-      let all = document.querySelector("#checkbox-all");
-      all.addEventListener("change", function(event) {
-        toggleAllOverlays(this, tabId);
-      });
+      // let all = document.querySelector("#checkbox-all");
+      // all.addEventListener("change", function(event) {
+      //   toggleAllOverlays(this, tabId);
+      // });
     }
   }
 
@@ -93,14 +106,22 @@
   }
 
   function createListOfElementsHTML(elements) {
-    let allState = elements.pop()[1] ? "checked" : "";
-    let resultHTML = `<div><input type="checkbox" id="checkbox-all" ${allState}><label for="checkbox-all">all</label></div>`;
+    let allState = elements.pop()[1] ? "on" : "off";
+    let resultHTML = `<div class="wrapper two-state" data-state=${allState}><button class="btn"></button><span class="element-name">all</span></div>`;
 
     elements.forEach((element, index) => {
-      let id = `checkbox${index}`;
       let name = element[0];
-      let elementState = element[1] ? "checked" : "";
-      resultHTML += `<div><input type="checkbox" class="bootstrap-element" id="${id}" data-index="${index}" ${elementState}><label for="${id}">${name}</label></div>`;
+      let hasOverlay = element[1];
+      let isExpanded = (hasOverlay && Boolean(element[2])) ? true : false;
+      let btnState = "off";
+      if(hasOverlay) {
+        if(isExpanded) {
+          btnState = "expanded";
+        }
+        btnState = "on"
+      }
+
+      resultHTML += `<div class="wrapper three-state" data-index=${index} data-state=${btnState}><button class="btn"></button><span class="element-name">${name}</span></div>`;
     });
 
     return resultHTML;

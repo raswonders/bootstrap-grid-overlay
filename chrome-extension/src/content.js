@@ -59,7 +59,11 @@
             name = cls;
           }
         });
-        mirror.push([name, Boolean(overlayElem)]);
+        if (overlayElem) {
+          mirror.push([name, true, overlayElem.classList.contains("expanded")]);
+        } else {
+          mirror.push([name, false])
+        }
       }
       // "all" checkbox state
       mirror.push(["all", this.allState]);
