@@ -32,7 +32,7 @@
         break;
       case "on": 
         element.dataset.state = "expanded";
-        element.children[0].innerHTML = `<i class="fas fa-expand"></i>`;
+        element.children[0].innerHTML = `<i class="fas fa-arrows-alt-v"></i>`;
         msgObj["message"] = "expand";
         break;
       case "expanded":
@@ -110,7 +110,7 @@
       if(hasOverlay) {
         if(isExpanded) {
           btnState = "expanded";
-          icon = `<i class="fas fa-expand"></i>`;
+          icon = `<i class="fas fa-arrows-alt-v"></i>`;
         } else {
           btnState = "on"
           icon = `<i class="fas fa-check"></i>`;
