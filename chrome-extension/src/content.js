@@ -3,17 +3,21 @@
 
   // allow script to be detected from extension by replying "ping" msgs
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    let response = { success: true }
+    let response = { success: true };
     switch (request.message) {
       case "ping":
         sendResponse(response);
         break;
       case "list":
-        response.list = overlay.list()
+        response.list = overlay.list();
         sendResponse(response);
         break;
       case "add":
         overlay.add(+request.index);
+        sendResponse(response);
+        break;
+      case "expand":
+        overlay.expand(+request.index);
         sendResponse(response);
         break;
       case "remove":
@@ -62,7 +66,7 @@
         if (overlayElem) {
           mirror.push([name, true, overlayElem.classList.contains("expanded")]);
         } else {
-          mirror.push([name, false])
+          mirror.push([name, false]);
         }
       }
       // "all" checkbox state
@@ -75,6 +79,12 @@
       this.elementsMap.set(element, createOverlayElement(element));
       this.updateOverlays();
       element.scrollIntoView();
+    }
+
+    expand(index) {
+      let element = this.getOverlayElement(index);
+      element.classList.add("expanded");
+      this.updateOverlays();
     }
 
     addAll(state) {
@@ -186,7 +196,7 @@
     /* positions overlay element */
     if (overlayElem.classList.contains("expanded")) {
       overlayElem.style.height = `100vh`;
-      overlayElem.style.top = `0px`
+      overlayElem.style.top = `0px`;
     } else {
       overlayElem.style.top = `${realElemRect.top + realElemBorderWidth}px`;
       overlayElem.style.height = `${realElem.clientHeight}px`;
