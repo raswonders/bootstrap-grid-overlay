@@ -1,4 +1,6 @@
+
 body {
+  --bootstrap-purple: rgb(121, 82, 179);
   min-width: 150px;
 }
 
@@ -38,9 +40,9 @@ body {
 }
 
 .wrapper[data-state="on"] .btn {
-  background: purple;
+  background: var(--bootstrap-purple);
 }
 
 .wrapper[data-state="expanded"] .btn {
-  background: purple;
+  background: var(--bootstrap-purple);
 }
