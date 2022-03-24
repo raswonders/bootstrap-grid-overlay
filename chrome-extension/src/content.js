@@ -22,6 +22,7 @@
         break;
       case "remove":
         overlay.remove(+request.index);
+        overlay.removeAll();
         sendResponse(response);
         break;
       case "addAll":

@@ -38,6 +38,7 @@
       case "expanded":
         element.dataset.state = "off";
         element.children[0].innerHTML = "";
+        resetAllElement();
         msgObj["message"] = "remove";
         break;
     }
@@ -98,6 +99,12 @@
         toggleAllOverlays(this, tabId);
       });
     }
+  }
+
+  function resetAllElement() {
+    let all = document.querySelector(".two-state");
+    all.dataset.state = "off";
+    all.children[0].innerHTML = "";
   }
 
   function hideNoElementsMsg() {
