@@ -114,14 +114,18 @@
       let hasOverlay = element[1];
       let isExpanded = (hasOverlay && Boolean(element[2])) ? true : false;
       let btnState = "off";
+      let icon = "";
       if(hasOverlay) {
         if(isExpanded) {
           btnState = "expanded";
+          icon = `<i class="fas fa-expand"></i>`;
+        } else {
+          btnState = "on"
+          icon = `<i class="fas fa-check"></i>`;
         }
-        btnState = "on"
       }
 
-      resultHTML += `<div class="wrapper three-state" data-index=${index} data-state=${btnState}><button class="btn"></button><span class="element-name">${name}</span></div>`;
+      resultHTML += `<div class="wrapper three-state" data-index=${index} data-state=${btnState}><button class="btn">${icon}</button><span class="element-name">${name}</span></div>`;
     });
 
     return resultHTML;
