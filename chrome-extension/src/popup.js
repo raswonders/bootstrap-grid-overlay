@@ -97,14 +97,6 @@
     document.querySelector(".no-elements").style.display = "none";
   }
 
-  function addActionToCheckboxes(nodelist, tabId) {
-    Array.from(nodelist).forEach(node => {
-      node.addEventListener("change", function(event) {
-        toggleOverlayElement(this, tabId);
-      });
-    });
-  }
-
   function createListOfElementsHTML(elements) {
     let allState = elements.pop()[1] ? "on" : "off";
     let resultHTML = `<div class="wrapper two-state" data-state=${allState}><button class="btn"></button><span class="element-name">all</span></div>`;
