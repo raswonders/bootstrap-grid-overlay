@@ -106,7 +106,8 @@
 
   function createListOfElementsHTML(elements) {
     let allState = elements.pop()[1] ? "on" : "off";
-    let resultHTML = `<div class="wrapper two-state" data-state=${allState}><button class="btn"></button><span class="element-name">all</span></div>`;
+    let icon = allState == "on" ? `<i class="fas fa-check"></i>` : "";
+    let resultHTML = `<div class="wrapper two-state" data-state=${allState}><button class="btn">${icon}</button><span class="element-name">all</span></div>`;
 
     elements.forEach((element, index) => {
       let name = element[0];
