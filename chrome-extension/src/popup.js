@@ -24,13 +24,13 @@
   function toggleOverlayElement(element, tabId) {
     let msgObj = { index: element.dataset.index };
 
-    switch(element.dataset.state) {
+    switch (element.dataset.state) {
       case "off":
         element.dataset.state = "on";
         element.children[0].innerHTML = `<i class="fas fa-check"></i>`;
         msgObj["message"] = "add";
         break;
-      case "on": 
+      case "on":
         element.dataset.state = "expanded";
         element.children[0].innerHTML = `<i class="fas fa-arrows-alt-v"></i>`;
         msgObj["message"] = "expand";
@@ -45,24 +45,31 @@
     chrome.tabs.sendMessage(tabId, msgObj);
   }
 
-  function toggleAllOverlays(checkboxElem, tabId) {
+  function toggleAllOverlays(element, tabId) {
     let msgObj = { message: "addAll" };
-    let checkboxes = Array.from(
-      document.querySelectorAll(".bootstrap-element")
-    );
-    if (checkboxElem.checked) {
-      msgObj["isChecked"] = true;
-      // check all checkboxes which are not checked yet
+    let checkboxes = Array.from(document.querySelectorAll(".three-state"));
+    if (element.dataset.state === "on") {
+      msgObj["isChecked"] = false;
+      element.dataset.state = "off";
+      element.children[0].innerHTML = "";
+
+      // uncheck all checkboxes which are currently checked
       checkboxes.reverse().forEach(checkbox => {
-        if (!checkbox.checked) {
+        if (checkbox.dataset.state === "expanded") {
+          checkbox.click();
+        } else if (checkbox.dataset.state === "on") {
+          checkbox.click();
           checkbox.click();
         }
       });
     } else {
-      msgObj["isChecked"] = false;
-      // uncheck all checkboxes which are currently checked
+      msgObj["isChecked"] = true;
+      element.dataset.state = "on";
+      element.children[0].innerHTML = `<i class="fas fa-check"></i>`;
+
+      // check all checkboxes which are not checked yet
       checkboxes.reverse().forEach(checkbox => {
-        if (checkbox.checked) {
+        if (checkbox.dataset.state === "off") {
           checkbox.click();
         }
       });
@@ -86,10 +93,10 @@
       });
 
       // Add event listener for all checkbox
-      // let all = document.querySelector("#checkbox-all");
-      // all.addEventListener("change", function(event) {
-      //   toggleAllOverlays(this, tabId);
-      // });
+      let all = document.querySelector(".two-state");
+      all.addEventListener("click", function(event) {
+        toggleAllOverlays(this, tabId);
+      });
     }
   }
 
@@ -104,15 +111,15 @@
     elements.forEach((element, index) => {
       let name = element[0];
       let hasOverlay = element[1];
-      let isExpanded = (hasOverlay && Boolean(element[2])) ? true : false;
+      let isExpanded = hasOverlay && Boolean(element[2]) ? true : false;
       let btnState = "off";
       let icon = "";
-      if(hasOverlay) {
-        if(isExpanded) {
+      if (hasOverlay) {
+        if (isExpanded) {
           btnState = "expanded";
           icon = `<i class="fas fa-arrows-alt-v"></i>`;
         } else {
-          btnState = "on"
+          btnState = "on";
           icon = `<i class="fas fa-check"></i>`;
         }
       }
