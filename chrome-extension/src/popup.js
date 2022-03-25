@@ -83,19 +83,21 @@
       ".element-list"
     ).innerHTML = createListOfElementsHTML(elements);
 
-    // Add event listeners to bootstrap element checkboxes
-    let checkboxes = document.querySelectorAll(".three-state");
-    checkboxes.forEach(node => {
+    addListenersToButtons(tabId);
+  }
+
+  function addListenersToButtons(tabId) {
+    document.querySelectorAll(".three-state").forEach(node => {
       node.addEventListener("click", function(event) {
         toggleOverlayElement(this, tabId);
       });
     });
 
-    // Add event listener for all checkbox
-    let all = document.querySelector(".two-state");
-    all.addEventListener("click", function(event) {
-      toggleAllOverlays(this, tabId);
-    });
+    document
+      .querySelector(".two-state")
+      .addEventListener("click", function(event) {
+        toggleAllOverlays(this, tabId);
+      });
   }
 
   function resetAllElement() {
