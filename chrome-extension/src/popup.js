@@ -83,10 +83,10 @@
       ".element-list"
     ).innerHTML = createListOfElementsHTML(elements);
 
-    addListenersToButtons(tabId);
+    addButtonListeners(tabId);
   }
 
-  function addListenersToButtons(tabId) {
+  function addButtonListeners(tabId) {
     document.querySelectorAll(".btn-wrapper").forEach(node => {
       node.addEventListener("click", function(event) {
         toggleOverlayElement(this, tabId);
