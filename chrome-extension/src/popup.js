@@ -6,10 +6,10 @@
 
   let hasScriptInjected = await hasContentScript(tab.id);
   if (!hasScriptInjected) {
-    await Promise.all(
+    await Promise.all([
       injectContentScript(tab.id, "src/content.js"),
       injectStyles(tab.id, "src/css/grid-overlay.css")
-    );
+    ]);
   }
 
   let elements = await getOverlayElements(tab.id);
