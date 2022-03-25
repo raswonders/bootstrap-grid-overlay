@@ -1,21 +1,20 @@
 (async function() {
   window.resizeTo(300, 300);
   let tab = await getCurrentTabId();
-  let tabId = tab.id;
 
   if (isChromeUrl(tab.url)) {
     return;
   }
 
-  let hasScript = await hasContentScript(tabId);
+  let hasScript = await hasContentScript(tab.id);
 
   if (!hasScript) {
-    await injectContentScript(tabId, "src/content.js");
-    await injectStyles(tabId, "src/css/grid-overlay.css");
+    await injectContentScript(tab.id, "src/content.js");
+    await injectStyles(tab.id, "src/css/grid-overlay.css");
   }
 
-  let elements = await getOverlayElements(tabId);
-  updateElementsInDOM(elements, tabId);
+  let elements = await getOverlayElements(tab.id);
+  updateElementsInDOM(elements, tab.id);
 
   function isChromeUrl(url) {
     return /^chrome:\/\//.test(url);
