@@ -153,7 +153,6 @@
     });
   }
 
-  // identify tab, that it's running in
   async function getCurrentTabId() {
     let queryOptions = { active: true, currentWindow: true };
     let [tab] = await chrome.tabs.query(queryOptions);
