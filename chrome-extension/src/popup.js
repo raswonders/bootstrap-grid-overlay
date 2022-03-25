@@ -2,9 +2,7 @@
   window.resizeTo(300, 300);
   let tab = await getCurrentTabId();
 
-  if (isChromeUrl(tab.url)) {
-    return;
-  }
+  if (isChromeUrl(tab.url)) return;
 
   let hasScript = await hasContentScript(tab.id);
 
