@@ -79,8 +79,9 @@
   function displayOverlayElements(elements, tabId) {
     if (elements.length <= 1) return;
 
-    elementList = document.querySelector(".element-list");
-    elementList.innerHTML = createListOfElementsHTML(elements);
+    document.querySelector(
+      ".element-list"
+    ).innerHTML = createListOfElementsHTML(elements);
 
     // Add event listeners to bootstrap element checkboxes
     let checkboxes = document.querySelectorAll(".three-state");
