@@ -4,11 +4,12 @@
 
   if (isChromeUrl(tab.url)) return;
 
-  let hasScript = await hasContentScript(tab.id);
-
-  if (!hasScript) {
-    await injectContentScript(tab.id, "src/content.js");
-    await injectStyles(tab.id, "src/css/grid-overlay.css");
+  let hasScriptInjected = await hasContentScript(tab.id);
+  if (!hasScriptInjected) {
+    await Promise.all(
+      injectContentScript(tab.id, "src/content.js"),
+      injectStyles(tab.id, "src/css/grid-overlay.css")
+    );
   }
 
   let elements = await getOverlayElements(tab.id);
