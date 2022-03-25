@@ -46,7 +46,7 @@
 
   function toggleAllOverlays(element, tabId) {
     let msgObj = { message: "addAll" };
-    let checkboxes = Array.from(document.querySelectorAll(".three-state"));
+    let checkboxes = Array.from(document.querySelectorAll(".btn-wrapper"));
     if (element.dataset.state === "on") {
       msgObj["isChecked"] = false;
       element.dataset.state = "off";
@@ -87,21 +87,21 @@
   }
 
   function addListenersToButtons(tabId) {
-    document.querySelectorAll(".three-state").forEach(node => {
+    document.querySelectorAll(".btn-wrapper").forEach(node => {
       node.addEventListener("click", function(event) {
         toggleOverlayElement(this, tabId);
       });
     });
 
     document
-      .querySelector(".two-state")
+      .querySelector(".all-btn-wrapper")
       .addEventListener("click", function(event) {
         toggleAllOverlays(this, tabId);
       });
   }
 
   function resetAllElement() {
-    let all = document.querySelector(".two-state");
+    let all = document.querySelector(".all-btn-wrapper");
     all.dataset.state = "off";
     all.children[0].innerHTML = "";
   }
@@ -109,7 +109,7 @@
   function createListOfElementsHTML(elements) {
     let allState = elements.pop()[1] ? "on" : "off";
     let icon = allState == "on" ? `<i class="fas fa-check"></i>` : "";
-    let resultHTML = `<div class="wrapper two-state" data-state=${allState}><button class="btn">${icon}</button><span class="element-name">all</span></div>`;
+    let resultHTML = `<div class="toggle-wrapper all-btn-wrapper" data-state=${allState}><button class="btn">${icon}</button><span class="element-name">all</span></div>`;
 
     elements.forEach((element, index) => {
       let name = element[0];
@@ -127,7 +127,7 @@
         }
       }
 
-      resultHTML += `<div class="wrapper three-state" data-index=${index} data-state=${btnState}><button class="btn">${icon}</button><span class="element-name">${name}</span></div>`;
+      resultHTML += `<div class="toggle-wrapper btn-wrapper" data-index=${index} data-state=${btnState}><button class="btn">${icon}</button><span class="element-name">${name}</span></div>`;
     });
 
     return resultHTML;

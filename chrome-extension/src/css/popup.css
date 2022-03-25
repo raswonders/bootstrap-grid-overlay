@@ -13,7 +13,7 @@ body {
   flex-flow: column;
 }
 
-.wrapper {
+.toggle-wrapper {
   display: flex;
   cursor: pointer;
   user-select: none;
@@ -35,14 +35,14 @@ body {
   line-height: 18px;
 }
 
-.wrapper[data-state="off"] .btn {
+.toggle-wrapper[data-state="off"] .btn {
   background: white;
 }
 
-.wrapper[data-state="on"] .btn {
+.toggle-wrapper[data-state="on"] .btn {
   background: var(--bootstrap-purple);
 }
 
-.wrapper[data-state="expanded"] .btn {
+.toggle-wrapper[data-state="expanded"] .btn {
   background: var(--bootstrap-purple);
 }
