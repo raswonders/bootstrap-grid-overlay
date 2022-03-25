@@ -13,7 +13,7 @@
   }
 
   let elements = await getOverlayElements(tab.id);
-  updateElementsInDOM(elements, tab.id);
+  displayOverlayElements(elements, tab.id);
 
   function isChromeUrl(url) {
     return /^chrome:\/\//.test(url);
@@ -76,7 +76,7 @@
     chrome.tabs.sendMessage(tabId, msgObj);
   }
 
-  function updateElementsInDOM(elements, tabId) {
+  function displayOverlayElements(elements, tabId) {
     elementList = document.querySelector(".element-list");
 
     if (elements.length > 1) {
@@ -139,14 +139,17 @@
   function getOverlayElements(tabId) {
     return new Promise((resolve, reject) => {
       let msgObj = { message: "list" };
+
       chrome.tabs.sendMessage(tabId, msgObj, response => {
         if (!response) {
           reject(chrome.runtime.lastError);
-        } else if (!response.list) {
-          reject(new Error("content script did not reply list message"));
-        } else {
-          resolve(response.list);
+          return;
         }
+        if (!response.list) {
+          reject(new Error("content script did not reply with list of elements"));
+          return;
+        } 
+        resolve(response.list);
       });
     });
   }
