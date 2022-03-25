@@ -77,26 +77,25 @@
   }
 
   function displayOverlayElements(elements, tabId) {
+    if (elements.length <= 1) return;
+
     elementList = document.querySelector(".element-list");
+    hideNoElementsMsg();
+    elementList.innerHTML = createListOfElementsHTML(elements);
 
-    if (elements.length > 1) {
-      hideNoElementsMsg();
-      elementList.innerHTML = createListOfElementsHTML(elements);
-
-      // Add event listeners to bootstrap element checkboxes
-      let checkboxes = document.querySelectorAll(".three-state");
-      checkboxes.forEach(node => {
-        node.addEventListener("click", function(event) {
-          toggleOverlayElement(this, tabId);
-        });
+    // Add event listeners to bootstrap element checkboxes
+    let checkboxes = document.querySelectorAll(".three-state");
+    checkboxes.forEach(node => {
+      node.addEventListener("click", function(event) {
+        toggleOverlayElement(this, tabId);
       });
+    });
 
-      // Add event listener for all checkbox
-      let all = document.querySelector(".two-state");
-      all.addEventListener("click", function(event) {
-        toggleAllOverlays(this, tabId);
-      });
-    }
+    // Add event listener for all checkbox
+    let all = document.querySelector(".two-state");
+    all.addEventListener("click", function(event) {
+      toggleAllOverlays(this, tabId);
+    });
   }
 
   function resetAllElement() {
@@ -146,9 +145,11 @@
           return;
         }
         if (!response.list) {
-          reject(new Error("content script did not reply with list of elements"));
+          reject(
+            new Error("content script did not reply with list of elements")
+          );
           return;
-        } 
+        }
         resolve(response.list);
       });
     });
