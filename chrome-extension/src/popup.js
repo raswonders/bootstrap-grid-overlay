@@ -80,7 +80,6 @@
     if (elements.length <= 1) return;
 
     elementList = document.querySelector(".element-list");
-    hideNoElementsMsg();
     elementList.innerHTML = createListOfElementsHTML(elements);
 
     // Add event listeners to bootstrap element checkboxes
@@ -102,10 +101,6 @@
     let all = document.querySelector(".two-state");
     all.dataset.state = "off";
     all.children[0].innerHTML = "";
-  }
-
-  function hideNoElementsMsg() {
-    document.querySelector(".no-elements").style.display = "none";
   }
 
   function createListOfElementsHTML(elements) {
