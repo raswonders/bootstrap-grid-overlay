@@ -80,9 +80,9 @@
   function displayOverlayElementsUI(elements, tabId) {
     if (elements.length <= 1) return;
 
-    document.querySelector(
-      ".element-list"
-    ).innerHTML = createElementListHTML(elements);
+    document.querySelector(".element-list").innerHTML = createElementListHTML(
+      elements
+    );
   }
 
   function addButtonListeners(tabId) {
@@ -92,11 +92,14 @@
       });
     });
 
-    document
-      .querySelector(".all-btn-wrapper")
-      .addEventListener("click", function(event) {
-        toggleAllOverlays(this, tabId);
-      });
+    addAllBtnListener(tabId);
+  }
+
+  function addAllBtnListener(tabId) {
+    const BTN = document.querySelector(".all-btn-wrapper");
+    BTN.addEventListener("click", function(event) {
+      toggleAllOverlays(this, tabId);
+    });
   }
 
   function resetAllElement() {
