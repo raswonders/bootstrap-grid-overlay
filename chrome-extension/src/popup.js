@@ -41,7 +41,7 @@
       case "expanded":
         element.dataset.state = "off";
         btn.innerHTML = ICON_NONE;
-        resetAllElement();
+        resetAllBtn();
         msgObj["message"] = "remove";
         break;
     }
@@ -110,7 +110,7 @@
     });
   }
 
-  function resetAllElement() {
+  function resetAllBtn() {
     let all = document.querySelector(".all-btn-wrapper");
     all.dataset.state = "off";
     all.children[0].innerHTML = "";
