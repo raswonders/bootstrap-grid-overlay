@@ -81,7 +81,7 @@
 
     document.querySelector(
       ".element-list"
-    ).innerHTML = createListOfElementsHTML(elements);
+    ).innerHTML = createElementListHTML(elements);
 
     addButtonListeners(tabId);
   }
@@ -145,7 +145,7 @@
       `;
   }
 
-  function createListOfElementsHTML(elements) {
+  function createElementListHTML(elements) {
     let result = createAllBtnTemplate(elements);
 
     elements.forEach((element, index) => {
