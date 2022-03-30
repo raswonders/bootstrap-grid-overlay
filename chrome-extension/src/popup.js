@@ -86,11 +86,11 @@
   }
 
   function addButtonListeners(tabId) {
-    addGenericBtnListeners(tabId);
+    addOverlayBtnListeners(tabId);
     addAllBtnListener(tabId);
   }
 
-  function addGenericBtnListeners(tabId) {
+  function addOverlayBtnListeners(tabId) {
     const BTNS = Array.from(document.querySelectorAll(".btn-wrapper"));
     BTNS.forEach(node => {
       node.addEventListener("click", function(event) {
