@@ -107,9 +107,11 @@
   }
 
   function createListOfElementsHTML(elements) {
-    const ALL_BTN_STATE = elements.pop()[1] ? "on" : "off";
-    let btnIcon = (ALL_BTN_STATE == "on" ? `<i class="fas fa-check"></i>` : "");
-    let resultHTML = `<div class="toggle-wrapper all-btn-wrapper" data-state=${allState}><button class="btn">${btnIcon}</button><span class="element-name">all</span></div>`;
+    const ALL_BTN = elements.pop();
+    const ALL_IS_CHECKED = ALL_BTN[1];
+    const ALL_STATE = ALL_IS_CHECKED ? "on" : "off";
+    let btnIcon = ALL_IS_CHECKED ? `<i class="fas fa-check"></i>` : "";
+    let resultHTML = `<div class="toggle-wrapper all-btn-wrapper" data-state=${ALL_STATE}><button class="btn">${btnIcon}</button><span class="element-name">all</span></div>`;
 
     elements.forEach((element, index) => {
       let name = element[0];
