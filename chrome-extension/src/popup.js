@@ -122,31 +122,31 @@
 
   function createGenericBtnTemplate(button, index) {
     let label, hasOverlay, isExpanded;
-      [label, hasOverlay, isExpanded] = button;
+    [label, hasOverlay, isExpanded] = button;
 
-      let btnState = "off";
-      let btnIcon = "";
+    let btnState = "off";
+    let btnIcon = "";
 
-      if (hasOverlay) {
-        btnState = "on";
-        btnIcon = `<i class="fas fa-check"></i>`;
-      }
+    if (hasOverlay) {
+      btnState = "on";
+      btnIcon = `<i class="fas fa-check"></i>`;
+    }
 
-      if (isExpanded) {
-        btnState = "expanded";
-        btnIcon = `<i class="fas fa-arrows-alt-v"></i>`;
-      }
+    if (isExpanded) {
+      btnState = "expanded";
+      btnIcon = `<i class="fas fa-arrows-alt-v"></i>`;
+    }
 
-      return `
+    return `
         <div class="toggle-wrapper btn-wrapper" data-index=${index} data-state=${btnState}>
           <button class="btn">${btnIcon}</button>
           <span class="element-name">${label}</span>
         </div>
       `;
   }
-  
+
   function createListOfElementsHTML(elements) {
-    let result = createAllBtnTemplate(elements)
+    let result = createAllBtnTemplate(elements);
 
     elements.forEach((element, index) => {
       result += createGenericBtnTemplate(element, index);
