@@ -116,16 +116,18 @@
     elements.forEach((element, index) => {
       let elementName, hasOverlay, isExpanded;
       [elementName, hasOverlay, isExpanded] = element;
+
       let btnState = "off";
       let btnIcon = "";
+
       if (hasOverlay) {
-        if (isExpanded) {
-          btnState = "expanded";
-          btnIcon = `<i class="fas fa-arrows-alt-v"></i>`;
-        } else {
-          btnState = "on";
-          btnIcon = `<i class="fas fa-check"></i>`;
-        }
+        btnState = "on";
+        btnIcon = `<i class="fas fa-check"></i>`;
+      }
+
+      if (isExpanded) {
+        btnState = "expanded";
+        btnIcon = `<i class="fas fa-arrows-alt-v"></i>`;
       }
 
       resultHTML += `<div class="toggle-wrapper btn-wrapper" data-index=${index} data-state=${btnState}><button class="btn">${btnIcon}</button><span class="element-name">${elementName}</span></div>`;
