@@ -20,7 +20,7 @@
     return /^chrome:\/\//.test(url);
   }
 
-  function toggleOverlayElement(element, tabId) {
+  function toggleOverlayBtn(element, tabId) {
     let msgObj = { index: element.dataset.index };
 
     switch (element.dataset.state) {
@@ -94,7 +94,7 @@
     const BTNS = Array.from(document.querySelectorAll(".btn-wrapper"));
     BTNS.forEach(node => {
       node.addEventListener("click", function(event) {
-        toggleOverlayElement(this, tabId);
+        toggleOverlayBtn(this, tabId);
       });
     });
   }
