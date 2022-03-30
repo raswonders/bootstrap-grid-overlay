@@ -14,6 +14,7 @@
 
   let elements = await getOverlayElements(tab.id);
   displayOverlayElementsUI(elements, tab.id);
+  addButtonListeners(tab.id);
 
   function isChromeUrl(url) {
     return /^chrome:\/\//.test(url);
@@ -82,8 +83,6 @@
     document.querySelector(
       ".element-list"
     ).innerHTML = createElementListHTML(elements);
-
-    addButtonListeners(tabId);
   }
 
   function addButtonListeners(tabId) {
