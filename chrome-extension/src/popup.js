@@ -45,7 +45,7 @@
     chrome.tabs.sendMessage(tabId, msgObj);
   }
 
-  function toggleAllOverlays(element, tabId) {
+  function toggleAllBtn(element, tabId) {
     let msgObj = { message: "addAll" };
     let checkboxes = Array.from(document.querySelectorAll(".btn-wrapper"));
     if (element.dataset.state === "on") {
@@ -102,7 +102,7 @@
   function addAllBtnListener(tabId) {
     const BTN = document.querySelector(".all-btn-wrapper");
     BTN.addEventListener("click", function(event) {
-      toggleAllOverlays(this, tabId);
+      toggleAllBtn(this, tabId);
     });
   }
 
