@@ -21,22 +21,26 @@
   }
 
   function toggleOverlayBtn(element, tabId) {
+    const ICON_CHECK = `<i class="fas fa-check"></i>`;
+    const ICON_EXPAND = `<i class="fas fa-arrows-alt-v"></i>`;
+    const ICON_NONE = "";
     let msgObj = { index: element.dataset.index };
+    let btn = element.children[0];
 
     switch (element.dataset.state) {
       case "off":
         element.dataset.state = "on";
-        element.children[0].innerHTML = `<i class="fas fa-check"></i>`;
+        btn.innerHTML = ICON_CHECK;
         msgObj["message"] = "add";
         break;
       case "on":
         element.dataset.state = "expanded";
-        element.children[0].innerHTML = `<i class="fas fa-arrows-alt-v"></i>`;
+        btn.innerHTML = ICON_EXPAND;
         msgObj["message"] = "expand";
         break;
       case "expanded":
         element.dataset.state = "off";
-        element.children[0].innerHTML = "";
+        btn.innerHTML = ICON_NONE;
         resetAllElement();
         msgObj["message"] = "remove";
         break;
