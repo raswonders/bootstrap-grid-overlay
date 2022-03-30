@@ -106,17 +106,21 @@
     all.children[0].innerHTML = "";
   }
 
-  function createListOfElementsHTML(elements) {
-    const ALL_BTN = elements.pop();
-    const ALL_IS_CHECKED = ALL_BTN[1];
-    const ALL_STATE = ALL_IS_CHECKED ? "on" : "off";
-    let btnIcon = ALL_IS_CHECKED ? `<i class="fas fa-check"></i>` : "";
-    let resultHTML = `
-      <div class="toggle-wrapper all-btn-wrapper" data-state=${ALL_STATE}>
-        <button class="btn">${btnIcon}</button>
+  function createAllBtnTemplate(elements) {
+    const BTN = elements.pop();
+    const BTN_IS_CHECKED = BTN[1];
+    const BTN_STATE = BTN_IS_CHECKED ? "on" : "off";
+    const BTN_ICON = BTN_IS_CHECKED ? `<i class="fas fa-check"></i>` : "";
+
+    return `
+      <div class="toggle-wrapper all-btn-wrapper" data-state=${BTN_STATE}>
+        <button class="btn">${BTN_ICON}</button>
         <span class="element-name">all</span>
       </div>
     `;
+  }
+  function createListOfElementsHTML(elements) {
+    let result = createAllBtnTemplate(elements)
 
     elements.forEach((element, index) => {
       let elementName, hasOverlay, isExpanded;
@@ -135,7 +139,7 @@
         btnIcon = `<i class="fas fa-arrows-alt-v"></i>`;
       }
 
-      resultHTML += `
+      result += `
         <div class="toggle-wrapper btn-wrapper" data-index=${index} data-state=${btnState}>
           <button class="btn">${btnIcon}</button>
           <span class="element-name">${elementName}</span>
@@ -143,7 +147,7 @@
       `;
     });
 
-    return resultHTML;
+    return result;
   }
 
   function getOverlayElements(tabId) {
