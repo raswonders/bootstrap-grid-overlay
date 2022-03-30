@@ -119,12 +119,10 @@
       </div>
     `;
   }
-  function createListOfElementsHTML(elements) {
-    let result = createAllBtnTemplate(elements)
 
-    elements.forEach((element, index) => {
-      let elementName, hasOverlay, isExpanded;
-      [elementName, hasOverlay, isExpanded] = element;
+  function createGenericBtnTemplate(button, index) {
+    let label, hasOverlay, isExpanded;
+      [label, hasOverlay, isExpanded] = button;
 
       let btnState = "off";
       let btnIcon = "";
@@ -139,12 +137,19 @@
         btnIcon = `<i class="fas fa-arrows-alt-v"></i>`;
       }
 
-      result += `
+      return `
         <div class="toggle-wrapper btn-wrapper" data-index=${index} data-state=${btnState}>
           <button class="btn">${btnIcon}</button>
-          <span class="element-name">${elementName}</span>
+          <span class="element-name">${label}</span>
         </div>
       `;
+  }
+  
+  function createListOfElementsHTML(elements) {
+    let result = createAllBtnTemplate(elements)
+
+    elements.forEach((element, index) => {
+      result += createGenericBtnTemplate(element, index);
     });
 
     return result;
