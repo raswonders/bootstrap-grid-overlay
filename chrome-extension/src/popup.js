@@ -13,7 +13,7 @@
   }
 
   let elements = await getOverlayElements(tab.id);
-  displayOverlayElements(elements, tab.id);
+  displayOverlayElementsUI(elements, tab.id);
 
   function isChromeUrl(url) {
     return /^chrome:\/\//.test(url);
@@ -76,7 +76,7 @@
     chrome.tabs.sendMessage(tabId, msgObj);
   }
 
-  function displayOverlayElements(elements, tabId) {
+  function displayOverlayElementsUI(elements, tabId) {
     if (elements.length <= 1) return;
 
     document.querySelector(
