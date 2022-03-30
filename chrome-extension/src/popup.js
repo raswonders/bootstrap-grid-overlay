@@ -114,9 +114,8 @@
     let resultHTML = `<div class="toggle-wrapper all-btn-wrapper" data-state=${ALL_STATE}><button class="btn">${btnIcon}</button><span class="element-name">all</span></div>`;
 
     elements.forEach((element, index) => {
-      let name = element[0];
-      let hasOverlay = element[1];
-      let isExpanded = hasOverlay && Boolean(element[2]) ? true : false;
+      let elementName, hasOverlay, isExpanded;
+      [elementName, hasOverlay, isExpanded] = element;
       let btnState = "off";
       let btnIcon = "";
       if (hasOverlay) {
@@ -129,7 +128,7 @@
         }
       }
 
-      resultHTML += `<div class="toggle-wrapper btn-wrapper" data-index=${index} data-state=${btnState}><button class="btn">${btnIcon}</button><span class="element-name">${name}</span></div>`;
+      resultHTML += `<div class="toggle-wrapper btn-wrapper" data-index=${index} data-state=${btnState}><button class="btn">${btnIcon}</button><span class="element-name">${elementName}</span></div>`;
     });
 
     return resultHTML;
