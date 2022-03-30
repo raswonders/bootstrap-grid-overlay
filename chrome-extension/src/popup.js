@@ -107,8 +107,8 @@
   }
 
   function createListOfElementsHTML(elements) {
-    let allState = elements.pop()[1] ? "on" : "off";
-    let icon = allState == "on" ? `<i class="fas fa-check"></i>` : "";
+    const ALL_BTN_STATE = elements.pop()[1] ? "on" : "off";
+    let icon = (ALL_BTN_STATE == "on" ? `<i class="fas fa-check"></i>` : "");
     let resultHTML = `<div class="toggle-wrapper all-btn-wrapper" data-state=${allState}><button class="btn">${icon}</button><span class="element-name">all</span></div>`;
 
     elements.forEach((element, index) => {
