@@ -108,26 +108,26 @@
 
   function createListOfElementsHTML(elements) {
     const ALL_BTN_STATE = elements.pop()[1] ? "on" : "off";
-    let icon = (ALL_BTN_STATE == "on" ? `<i class="fas fa-check"></i>` : "");
-    let resultHTML = `<div class="toggle-wrapper all-btn-wrapper" data-state=${allState}><button class="btn">${icon}</button><span class="element-name">all</span></div>`;
+    let btnIcon = (ALL_BTN_STATE == "on" ? `<i class="fas fa-check"></i>` : "");
+    let resultHTML = `<div class="toggle-wrapper all-btn-wrapper" data-state=${allState}><button class="btn">${btnIcon}</button><span class="element-name">all</span></div>`;
 
     elements.forEach((element, index) => {
       let name = element[0];
       let hasOverlay = element[1];
       let isExpanded = hasOverlay && Boolean(element[2]) ? true : false;
       let btnState = "off";
-      let icon = "";
+      let btnIcon = "";
       if (hasOverlay) {
         if (isExpanded) {
           btnState = "expanded";
-          icon = `<i class="fas fa-arrows-alt-v"></i>`;
+          btnIcon = `<i class="fas fa-arrows-alt-v"></i>`;
         } else {
           btnState = "on";
-          icon = `<i class="fas fa-check"></i>`;
+          btnIcon = `<i class="fas fa-check"></i>`;
         }
       }
 
-      resultHTML += `<div class="toggle-wrapper btn-wrapper" data-index=${index} data-state=${btnState}><button class="btn">${icon}</button><span class="element-name">${name}</span></div>`;
+      resultHTML += `<div class="toggle-wrapper btn-wrapper" data-index=${index} data-state=${btnState}><button class="btn">${btnIcon}</button><span class="element-name">${name}</span></div>`;
     });
 
     return resultHTML;
