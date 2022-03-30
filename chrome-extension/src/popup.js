@@ -126,7 +126,7 @@
     `;
   }
 
-  function createGenericBtnTemplate(button, index) {
+  function createOverlayBtnTemplate(button, index) {
     let label, hasOverlay, isExpanded;
     [label, hasOverlay, isExpanded] = button;
 
@@ -155,7 +155,7 @@
     let result = createAllBtnTemplate(elements);
 
     elements.forEach((element, index) => {
-      result += createGenericBtnTemplate(element, index);
+      result += createOverlayBtnTemplate(element, index);
     });
 
     return result;
