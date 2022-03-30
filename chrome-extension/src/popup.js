@@ -86,13 +86,17 @@
   }
 
   function addButtonListeners(tabId) {
-    document.querySelectorAll(".btn-wrapper").forEach(node => {
+    addGenericBtnListeners(tabId);
+    addAllBtnListener(tabId);
+  }
+
+  function addGenericBtnListeners(tabId) {
+    const BTNS = Array.from(document.querySelectorAll(".btn-wrapper"));
+    BTNS.forEach(node => {
       node.addEventListener("click", function(event) {
         toggleOverlayElement(this, tabId);
       });
     });
-
-    addAllBtnListener(tabId);
   }
 
   function addAllBtnListener(tabId) {
