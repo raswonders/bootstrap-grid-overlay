@@ -87,7 +87,7 @@
 
   function checkAllButtons(buttons) {
     buttons.reverse().forEach(btn => {
-      if (btn.dataset.state === "off") {
+      if (isOff(btn)) {
         btn.click();
       }
     });
