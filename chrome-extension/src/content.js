@@ -1,41 +1,7 @@
 (function() {
   let bootstrapRE = /^(row|container|container\-(fluid|sm|md|lg|xl|xxl))$/;
 
-  // allow script to be detected from extension by replying "ping" msgs
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    let response = { success: true };
-    switch (request.message) {
-      case "ping":
-        sendResponse(response);
-        break;
-      case "list":
-        response.list = overlay.list();
-        sendResponse(response);
-        break;
-      case "add":
-        overlay.add(+request.index);
-        sendResponse(response);
-        break;
-      case "expand":
-        overlay.expand(+request.index);
-        sendResponse(response);
-        break;
-      case "remove":
-        overlay.remove(+request.index);
-        overlay.removeAll();
-        sendResponse(response);
-        break;
-      case "addAll":
-        overlay.addAll();
-        sendResponse(response);
-        break;
-      case "removeAll":
-        overlay.removeAll();
-        sendResponse(response);
-        break;
-    }
-    return true;
-  });
+  listenForCommands();
 
   class Overlay {
     constructor(bootstrapElements) {
@@ -137,6 +103,37 @@
   /* Detects all bootstrap5 container and row elements */
   let containers = document.body.querySelectorAll('[class^="container"]');
   let rows = document.body.querySelectorAll(".row");
+
+  function listenForCommands() {
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+      let response = { success: true };
+  
+      switch (request.message) {
+        case "list":
+          response.list = overlay.list();
+          break;
+        case "add":
+          overlay.add(+request.index);
+          break;
+        case "expand":
+          overlay.expand(+request.index);
+          break;
+        case "remove":
+          overlay.remove(+request.index);
+          overlay.removeAll();
+          break;
+        case "addAll":
+          overlay.addAll();
+          break;
+        case "removeAll":
+          overlay.removeAll();
+          break;
+      }
+  
+      sendResponse(response);
+      return true;
+    });
+  }
 
   function createOverlayElement(element) {
     if (element.classList.contains("row")) {
