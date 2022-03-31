@@ -100,7 +100,7 @@
       });
     }
 
-    chrome.tabs.sendMessage(tabId, update);
+    notifyContentScript(tabId, update)
   }
 
   function displayOverlayElementsUI(elements, tabId) {
