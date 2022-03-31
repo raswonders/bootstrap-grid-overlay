@@ -68,19 +68,18 @@
     }
   }
 
-  function toggleAllBtn(element, tabId) {
+  function toggleAllBtn(btnWrapper, tabId) {
     const update = {};
-    const buttons = Array.from(document.querySelectorAll(".btn-wrapper"));
-    const btn = element.children[0];
+    const btnWrappers = Array.from(document.querySelectorAll(".btn-wrapper"));
 
-    if (element.dataset.state === "on") {
-      switchBtnState(element, "off");
+    if (btnWrapper.dataset.state === "on") {
+      switchBtnState(btnWrapper, "off");
       update.message = "removeAll";
-      uncheckAllButtons(buttons);
+      uncheckAllButtons(btnWrappers);
     } else {
-      switchBtnState(element, "on");
+      switchBtnState(btnWrapper, "on");
       update.message = "addAll";
-      checkAllButtons(buttons);
+      checkAllButtons(btnWrappers);
     }
     
     notifyContentScript(tabId, update)
