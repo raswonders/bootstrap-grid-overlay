@@ -77,17 +77,7 @@
       switchBtnState(element, "off");
       update.message = "removeAll";
 
-      // uncheck all buttons which are currently checked
-      buttons.reverse().forEach(btn => {
-        if (btn.dataset.state === "expanded") {
-          btn.click();
-        } 
-        
-        if (btn.dataset.state === "on") {
-          btn.click();
-          btn.click();
-        }
-      });
+      uncheckAllButtons(buttons);
     } else {
       update.message = "addAll";
       switchBtnState(element, "on");
@@ -101,6 +91,19 @@
     }
 
     notifyContentScript(tabId, update)
+  }
+
+  function uncheckAllButtons(buttons) {
+    buttons.reverse().forEach(btn => {
+      if (btn.dataset.state === "expanded") {
+        btn.click();
+      } 
+      
+      if (btn.dataset.state === "on") {
+        btn.click();
+        btn.click();
+      }
+    });
   }
 
   function displayOverlayElementsUI(elements, tabId) {
