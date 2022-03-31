@@ -69,13 +69,13 @@
   }
 
   function toggleAllBtn(element, tabId) {
-    const msgObj = {};
+    const update = {};
     const buttons = Array.from(document.querySelectorAll(".btn-wrapper"));
     const btn = element.children[0];
 
     if (element.dataset.state === "on") {
       switchBtnState(element, "off");
-      msgObj.message = "removeAll";
+      update.message = "removeAll";
 
       // uncheck all buttons which are currently checked
       buttons.reverse().forEach(btn => {
@@ -89,7 +89,7 @@
         }
       });
     } else {
-      msgObj.message = "addAll";
+      update.message = "addAll";
       switchBtnState(element, "on");
 
       // check all buttons which are not checked yet
@@ -100,7 +100,7 @@
       });
     }
 
-    chrome.tabs.sendMessage(tabId, msgObj);
+    chrome.tabs.sendMessage(tabId, update);
   }
 
   function displayOverlayElementsUI(elements, tabId) {
