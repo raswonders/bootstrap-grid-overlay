@@ -21,26 +21,26 @@
   }
 
   function toggleOverlayBtn(element, tabId) {
-    const ICON_CHECK = `<i class="fas fa-check"></i>`;
-    const ICON_EXPAND = `<i class="fas fa-arrows-alt-v"></i>`;
-    const ICON_NONE = "";
+    const iconCheck = `<i class="fas fa-check"></i>`;
+    const iconExpand = `<i class="fas fa-arrows-alt-v"></i>`;
+    const iconNone = "";
     let msgObj = { index: element.dataset.index };
     let btn = element.children[0];
 
     switch (element.dataset.state) {
       case "off":
         element.dataset.state = "on";
-        btn.innerHTML = ICON_CHECK;
+        btn.innerHTML = iconCheck;
         msgObj["message"] = "add";
         break;
       case "on":
         element.dataset.state = "expanded";
-        btn.innerHTML = ICON_EXPAND;
+        btn.innerHTML = iconExpand;
         msgObj["message"] = "expand";
         break;
       case "expanded":
         element.dataset.state = "off";
-        btn.innerHTML = ICON_NONE;
+        btn.innerHTML = iconNone;
         resetAllBtn();
         msgObj["message"] = "remove";
         break;
@@ -95,8 +95,8 @@
   }
 
   function addOverlayBtnListeners(tabId) {
-    const BTNS = Array.from(document.querySelectorAll(".btn-wrapper"));
-    BTNS.forEach(node => {
+    const buttons = Array.from(document.querySelectorAll(".btn-wrapper"));
+    buttons.forEach(node => {
       node.addEventListener("click", function(event) {
         toggleOverlayBtn(this, tabId);
       });
@@ -104,8 +104,8 @@
   }
 
   function addAllBtnListener(tabId) {
-    const BTN = document.querySelector(".all-btn-wrapper");
-    BTN.addEventListener("click", function(event) {
+    const btn = document.querySelector(".all-btn-wrapper");
+    btn.addEventListener("click", function(event) {
       toggleAllBtn(this, tabId);
     });
   }
@@ -117,14 +117,14 @@
   }
 
   function createAllBtnTemplate(elements) {
-    const BTN = elements.pop();
-    const BTN_IS_CHECKED = BTN[1];
-    const BTN_STATE = BTN_IS_CHECKED ? "on" : "off";
-    const BTN_ICON = BTN_IS_CHECKED ? `<i class="fas fa-check"></i>` : "";
+    const btn = elements.pop();
+    const btnIsChecked = btn[1];
+    const btnState = btnIsChecked ? "on" : "off";
+    const btnIcon = btnIsChecked ? `<i class="fas fa-check"></i>` : "";
 
     return `
-      <div class="toggle-wrapper all-btn-wrapper" data-state=${BTN_STATE}>
-        <button class="btn">${BTN_ICON}</button>
+      <div class="toggle-wrapper all-btn-wrapper" data-state=${btnState}>
+        <button class="btn">${btnIcon}</button>
         <span class="element-name">all</span>
       </div>
     `;
