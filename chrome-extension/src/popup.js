@@ -72,7 +72,7 @@
     const update = {};
     const btnWrappers = Array.from(document.querySelectorAll(".btn-wrapper"));
 
-    if (btnWrapper.dataset.state === "on") {
+    if (isOn(btnWrapper) {
       switchBtnState(btnWrapper, "off");
       update.message = "removeAll";
       uncheckAllButtons(btnWrappers);
