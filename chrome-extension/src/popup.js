@@ -50,34 +50,38 @@
   }
 
   function toggleAllBtn(element, tabId) {
-    let msgObj = { message: "addAll" };
-    let checkboxes = Array.from(document.querySelectorAll(".btn-wrapper"));
+    const msgObj = { message: "addAll" };
+    const buttons = Array.from(document.querySelectorAll(".btn-wrapper"));
+    const btn = element.children[0];
+    const iconCheck = `<i class="fas fa-check"></i>`;
+
     if (element.dataset.state === "on") {
       msgObj["isChecked"] = false;
       element.dataset.state = "off";
-      element.children[0].innerHTML = "";
+      btn.innerHTML = "";
 
-      // uncheck all checkboxes which are currently checked
-      checkboxes.reverse().forEach(checkbox => {
-        if (checkbox.dataset.state === "expanded") {
-          checkbox.click();
-        } else if (checkbox.dataset.state === "on") {
-          checkbox.click();
-          checkbox.click();
+      // uncheck all buttons which are currently checked
+      buttons.reverse().forEach(btn => {
+        if (btn.dataset.state === "expanded") {
+          btn.click();
+        } else if (btn.dataset.state === "on") {
+          btn.click();
+          btn.click();
         }
       });
     } else {
       msgObj["isChecked"] = true;
       element.dataset.state = "on";
-      element.children[0].innerHTML = `<i class="fas fa-check"></i>`;
+      btn.innerHTML = iconCheck;
 
-      // check all checkboxes which are not checked yet
-      checkboxes.reverse().forEach(checkbox => {
-        if (checkbox.dataset.state === "off") {
-          checkbox.click();
+      // check all buttons which are not checked yet
+      buttons.reverse().forEach(btn => {
+        if (btn.dataset.state === "off") {
+          btn.click();
         }
       });
     }
+
     chrome.tabs.sendMessage(tabId, msgObj);
   }
 
