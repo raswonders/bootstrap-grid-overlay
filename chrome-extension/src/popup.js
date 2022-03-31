@@ -21,25 +21,29 @@
   }
 
   function toggleOverlayBtn(element, tabId) {
-    let msgObj = { index: element.dataset.index };
+    const update = { index: element.dataset.index };
 
     switch (element.dataset.state) {
       case "off":
         switchBtnState(element, "on");
-        msgObj["message"] = "add";
+        update.message = "add";
         break;
       case "on":
         switchBtnState(element, "expanded");
-        msgObj["message"] = "expand";
+        update.message = "expand";
         break;
       case "expanded":
         switchBtnState(element, "off");
+        update.message = "remove";
         resetAllBtn();
-        msgObj["message"] = "remove";
         break;
     }
 
-    chrome.tabs.sendMessage(tabId, msgObj);
+    notifyContentScript(tabId, update)
+  }
+
+  function notifyContentScript(tabId, msg) {
+    chrome.tabs.sendMessage(tabId, msg);
   }
 
   function switchBtnState(btnWrapper, state) {
