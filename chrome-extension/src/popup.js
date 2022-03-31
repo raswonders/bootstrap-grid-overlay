@@ -76,21 +76,22 @@
     if (element.dataset.state === "on") {
       switchBtnState(element, "off");
       update.message = "removeAll";
-
       uncheckAllButtons(buttons);
     } else {
-      update.message = "addAll";
       switchBtnState(element, "on");
-
-      // check all buttons which are not checked yet
-      buttons.reverse().forEach(btn => {
-        if (btn.dataset.state === "off") {
-          btn.click();
-        }
-      });
+      update.message = "addAll";
+      checkAllButtons(buttons);
     }
-
+    
     notifyContentScript(tabId, update)
+  }
+
+  function checkAllButtons(buttons) {
+    buttons.reverse().forEach(btn => {
+      if (btn.dataset.state === "off") {
+        btn.click();
+      }
+    });
   }
 
   function uncheckAllButtons(buttons) {
