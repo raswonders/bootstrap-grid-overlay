@@ -95,15 +95,25 @@
 
   function uncheckAllButtons(buttons) {
     buttons.reverse().forEach(btn => {
-      if (btn.dataset.state === "expanded") {
-        btn.click();
-      } 
-      
-      if (btn.dataset.state === "on") {
+      if (isExpanded(btn)) btn.click();
+       
+      if (isOn(btn)) {
         btn.click();
         btn.click();
       }
     });
+  }
+
+  function isOn(btnWrapper) {
+    return btnWrapper.dataset.state === "on";
+  }
+
+  function isOff(btnWrapper) {
+    return btnWrapper.dataset.state === "off";
+  }
+
+  function isExpanded(btnWrapper) {
+    return btnWrapper.dataset.state === "expanded";
   }
 
   function displayOverlayElementsUI(elements, tabId) {
