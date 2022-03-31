@@ -50,14 +50,14 @@
   }
 
   function toggleAllBtn(element, tabId) {
-    const msgObj = { message: "addAll" };
+    const msgObj = {};
     const buttons = Array.from(document.querySelectorAll(".btn-wrapper"));
     const btn = element.children[0];
     const iconCheck = `<i class="fas fa-check"></i>`;
     const iconNone = "";
 
     if (element.dataset.state === "on") {
-      msgObj["isChecked"] = false;
+      msgObj.message = "removeAll";
       element.dataset.state = "off";
       btn.innerHTML = iconNone;
 
@@ -71,7 +71,7 @@
         }
       });
     } else {
-      msgObj["isChecked"] = true;
+      msgObj.message = "addAll";
       element.dataset.state = "on";
       btn.innerHTML = iconCheck;
 

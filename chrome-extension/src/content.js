@@ -26,11 +26,11 @@
         sendResponse(response);
         break;
       case "addAll":
-        if (request.isChecked) {
-          overlay.addAll()
-        } else {
-          overlay.removeAll()
-        }
+        overlay.addAll();
+        sendResponse(response);
+        break;
+      case "removeAll":
+        overlay.removeAll();
         sendResponse(response);
         break;
     }
