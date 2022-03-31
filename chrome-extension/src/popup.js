@@ -128,9 +128,9 @@
   }
 
   function addOverlayBtnListeners(tabId) {
-    const buttons = Array.from(document.querySelectorAll(".btn-wrapper"));
-    buttons.forEach(node => {
-      node.addEventListener("click", function(event) {
+    const btnWrappers = Array.from(document.querySelectorAll(".btn-wrapper"));
+    btnWrappers.forEach(wrapper => {
+      wrapper.addEventListener("click", function(event) {
         toggleOverlayBtn(this, tabId);
       });
     });
