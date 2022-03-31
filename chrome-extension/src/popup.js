@@ -54,11 +54,12 @@
     const buttons = Array.from(document.querySelectorAll(".btn-wrapper"));
     const btn = element.children[0];
     const iconCheck = `<i class="fas fa-check"></i>`;
+    const iconNone = "";
 
     if (element.dataset.state === "on") {
       msgObj["isChecked"] = false;
       element.dataset.state = "off";
-      btn.innerHTML = "";
+      btn.innerHTML = iconNone;
 
       // uncheck all buttons which are currently checked
       buttons.reverse().forEach(btn => {
