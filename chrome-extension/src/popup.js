@@ -21,26 +21,19 @@
   }
 
   function toggleOverlayBtn(element, tabId) {
-    const iconCheck = `<i class="fas fa-check"></i>`;
-    const iconExpand = `<i class="fas fa-arrows-alt-v"></i>`;
-    const iconNone = "";
     let msgObj = { index: element.dataset.index };
-    let btn = element.children[0];
 
     switch (element.dataset.state) {
       case "off":
-        element.dataset.state = "on";
-        btn.innerHTML = iconCheck;
+        switchBtnState(element, "on");
         msgObj["message"] = "add";
         break;
       case "on":
-        element.dataset.state = "expanded";
-        btn.innerHTML = iconExpand;
+        switchBtnState(element, "expanded");
         msgObj["message"] = "expand";
         break;
       case "expanded":
-        element.dataset.state = "off";
-        btn.innerHTML = iconNone;
+        switchBtnState(element, "off");
         resetAllBtn();
         msgObj["message"] = "remove";
         break;
@@ -49,31 +42,51 @@
     chrome.tabs.sendMessage(tabId, msgObj);
   }
 
+  function switchBtnState(btnWrapper, state) {
+    const btn = btnWrapper.children[0];
+    const iconNone = "";
+    const iconCheck = `<i class="fas fa-check"></i>`;
+    const iconExpand = `<i class="fas fa-arrows-alt-v"></i>`;
+
+    switch (state) {
+      case "on":
+        btnWrapper.dataset.state = "on";
+        btn.innerHTML = iconCheck;
+        break;
+      case "off":
+        btnWrapper.dataset.state = "off";
+        btn.innerHTML = iconNone;
+        break;
+      case "expanded":
+        btnWrapper.dataset.state = "expanded";
+        btn.innerHTML = iconExpand;
+        break;
+    }
+  }
+
   function toggleAllBtn(element, tabId) {
     const msgObj = {};
     const buttons = Array.from(document.querySelectorAll(".btn-wrapper"));
     const btn = element.children[0];
-    const iconCheck = `<i class="fas fa-check"></i>`;
-    const iconNone = "";
 
     if (element.dataset.state === "on") {
+      switchBtnState(element, "off");
       msgObj.message = "removeAll";
-      element.dataset.state = "off";
-      btn.innerHTML = iconNone;
 
       // uncheck all buttons which are currently checked
       buttons.reverse().forEach(btn => {
         if (btn.dataset.state === "expanded") {
           btn.click();
-        } else if (btn.dataset.state === "on") {
+        } 
+        
+        if (btn.dataset.state === "on") {
           btn.click();
           btn.click();
         }
       });
     } else {
       msgObj.message = "addAll";
-      element.dataset.state = "on";
-      btn.innerHTML = iconCheck;
+      switchBtnState(element, "on");
 
       // check all buttons which are not checked yet
       buttons.reverse().forEach(btn => {
