@@ -39,7 +39,7 @@
         break;
     }
 
-    notifyContentScript(tabId, update)
+    notifyContentScript(tabId, update);
   }
 
   function notifyContentScript(tabId, msg) {
