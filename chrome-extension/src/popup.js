@@ -137,8 +137,8 @@
   }
 
   function addAllBtnListener(tabId) {
-    const btn = document.querySelector(".all-btn-wrapper");
-    btn.addEventListener("click", function(event) {
+    const btnWrapper = document.querySelector(".all-btn-wrapper");
+    btnWrapper.addEventListener("click", function(event) {
       toggleAllBtn(this, tabId);
     });
   }
