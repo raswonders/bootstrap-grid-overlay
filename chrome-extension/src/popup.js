@@ -5,10 +5,13 @@
   if (isChromeUrl(tab.url)) return;
 
   await injectExtensionParts(tab.id);
-
   const elements = await getOverlayElements(tab.id);
-  displayOverlayElementsUI(elements, tab.id);
-  addButtonListeners(tab.id);
+  await updateUI(elements, tab.id);
+
+  async function updateUI(elements, tabId) {
+    displayOverlayElementsUI(elements, tabId);
+    addButtonListeners(tabId);
+  }
 
   async function injectExtensionParts(tabId) {
     let hasScriptInjected = await hasContentScript(tabId);
