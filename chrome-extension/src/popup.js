@@ -4,17 +4,21 @@
 
   if (isChromeUrl(tab.url)) return;
 
-  let hasScriptInjected = await hasContentScript(tab.id);
-  if (!hasScriptInjected) {
-    await Promise.all([
-      injectContentScript(tab.id, "src/content.js"),
-      injectStyles(tab.id, "src/css/grid-overlay.css")
-    ]);
-  }
+  await injectExtensionParts();
 
-  let elements = await getOverlayElements(tab.id);
+  const elements = await getOverlayElements(tab.id);
   displayOverlayElementsUI(elements, tab.id);
   addButtonListeners(tab.id);
+
+  async function injectExtensionParts() {
+    let hasScriptInjected = await hasContentScript(tab.id);
+    if (!hasScriptInjected) {
+      await Promise.all([
+        injectContentScript(tab.id, "src/content.js"),
+        injectStyles(tab.id, "src/css/grid-overlay.css")
+      ]);
+    }
+  }
 
   function isChromeUrl(url) {
     return /^chrome:\/\//.test(url);
@@ -81,8 +85,8 @@
       update.message = "addAll";
       checkAllButtons(btnWrappers);
     }
-    
-    notifyContentScript(tabId, update)
+
+    notifyContentScript(tabId, update);
   }
 
   function checkAllButtons(buttons) {
@@ -94,7 +98,7 @@
   function uncheckAllButtons(buttons) {
     buttons.reverse().forEach(btn => {
       if (isExpanded(btn)) btn.click();
-       
+
       if (isOn(btn)) {
         btn.click();
         btn.click();
