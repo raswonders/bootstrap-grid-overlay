@@ -4,18 +4,18 @@
 
   if (isChromeUrl(tab.url)) return;
 
-  await injectExtensionParts();
+  await injectExtensionParts(tab.id);
 
   const elements = await getOverlayElements(tab.id);
   displayOverlayElementsUI(elements, tab.id);
   addButtonListeners(tab.id);
 
-  async function injectExtensionParts() {
-    let hasScriptInjected = await hasContentScript(tab.id);
+  async function injectExtensionParts(tabId) {
+    let hasScriptInjected = await hasContentScript(tabId);
     if (!hasScriptInjected) {
       await Promise.all([
-        injectContentScript(tab.id, "src/content.js"),
-        injectStyles(tab.id, "src/css/grid-overlay.css")
+        injectContentScript(tabId, "src/content.js"),
+        injectStyles(tabId, "src/css/grid-overlay.css")
       ]);
     }
   }
