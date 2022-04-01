@@ -1,6 +1,6 @@
 (async function() {
   window.resizeTo(300, 300);
-  let tab = await getCurrentTabId();
+  const tab = await getCurrentTabId();
 
   if (isChromeUrl(tab.url)) return;
 
