@@ -1,4 +1,5 @@
 (async function() {
+  "use strict";
   window.resizeTo(300, 300);
   const tab = await getCurrentTabId();
 
