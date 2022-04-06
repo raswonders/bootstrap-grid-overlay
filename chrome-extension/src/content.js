@@ -5,11 +5,8 @@
 
   class Overlay {
     constructor(bootstrapElements) {
-      // Create map of bootstrap and overlay DOM elements
-      this.elementsMap = new Map();
-      bootstrapElements.forEach(elem => {
-        this.elementsMap.set(elem, null);
-      });
+
+      this.elementsMap = createElementMap(bootstrapElements);
 
       // Append overlay root element to DOM, if it's not already
       let overlayRoot = document.querySelector("#grid-overlay");
@@ -99,6 +96,15 @@
     '[class^="container"], [class^="row"]'
   );
   let overlay = new Overlay(bootstrapElements);
+
+  function createElementMap(elements) {
+    const map = new Map();
+    elements.forEach(elem => {
+      map.set(elem, null);
+    });
+
+    return map;
+  }
 
   function listenForCommands() {
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
