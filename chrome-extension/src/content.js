@@ -100,10 +100,6 @@
   );
   let overlay = new Overlay(bootstrapElements);
 
-  /* Detects all bootstrap5 container and row elements */
-  let containers = document.body.querySelectorAll('[class^="container"]');
-  let rows = document.body.querySelectorAll(".row");
-
   function listenForCommands() {
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       let response = { success: true };
