@@ -6,7 +6,7 @@
   class Overlay {
     constructor(bootstrapElements) {
 
-      this.elementsMap = createElementMap(bootstrapElements);
+      this.elementMap = createElementMap(bootstrapElements);
 
       // Append overlay root element to DOM, if it's not already
       let overlayRoot = document.querySelector("#grid-overlay");
@@ -24,7 +24,7 @@
       // Return info about element and whether its overlay is being shown
       let mirror = [];
 
-      for (let [realElem, overlayElem] of this.elementsMap) {
+      for (let [realElem, overlayElem] of this.elementMap) {
         let name = "unknown";
         realElem.classList.forEach(cls => {
           if (bootstrapRE.test(cls)) {
@@ -44,7 +44,7 @@
 
     add(index) {
       let element = this.getRealElement(index);
-      this.elementsMap.set(element, createOverlayElement(element));
+      this.elementMap.set(element, createOverlayElement(element));
       this.updateOverlays();
       element.scrollIntoView();
     }
@@ -67,23 +67,23 @@
       let element = this.getRealElement(index);
       let overlayElement = this.getOverlayElement(index);
       overlayElement.parentNode.removeChild(overlayElement);
-      this.elementsMap.set(element, null);
+      this.elementMap.set(element, null);
       this.updateOverlays();
     }
 
     getRealElement(index) {
-      return Array.from(this.elementsMap.keys())[index];
+      return Array.from(this.elementMap.keys())[index];
     }
 
     getOverlayElement(index) {
-      return Array.from(this.elementsMap.values())[index];
+      return Array.from(this.elementMap.values())[index];
     }
 
     updateOverlays(updateOverlayTimeout = 0) {
       /* resets timeout of scheduled update */
       clearTimeout(updateOverlayTimeout);
       updateOverlayTimeout = setTimeout(() => {
-        for (let [realElem, overlayElem] of this.elementsMap.entries()) {
+        for (let [realElem, overlayElem] of this.elementMap.entries()) {
           if (realElem && overlayElem) {
             positionOverlayElement(realElem, overlayElem);
           }
