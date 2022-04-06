@@ -5,18 +5,8 @@
 
   class Overlay {
     constructor(bootstrapElements) {
-
       this.elementMap = createElementMap(bootstrapElements);
-
-      // Append overlay root element to DOM, if it's not already
-      let overlayRoot = document.querySelector("#grid-overlay");
-      if (!overlayRoot) {
-        overlayRoot = document.createElement("div");
-        overlayRoot.id = "grid-overlay";
-        overlayRoot = document.body.appendChild(overlayRoot);
-      }
-      overlayRoot.innerHTML = "";
-      this.overlayRoot = overlayRoot;
+      this.rootElement = createOverlayRoot("grid-overlay");
       this.allState = false;
     }
 
@@ -104,6 +94,19 @@
     });
 
     return map;
+  }
+
+  function createOverlayRoot(elementId) {
+    let overlayRoot = document.querySelector(`#${elementId}`);
+
+    if (!overlayRoot) {
+      overlayRoot = document.createElement("div");
+      overlayRoot.id = elementId;
+      overlayRoot = document.body.appendChild(overlayRoot);
+    }
+
+    overlayRoot.innerHTML = "";
+    return overlayRoot;
   }
 
   function listenForCommands() {
