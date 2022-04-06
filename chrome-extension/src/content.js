@@ -1,5 +1,5 @@
 (function() {
-  let bootstrapRE = /^(row|container|container\-(fluid|sm|md|lg|xl|xxl))$/;
+  const bootstrapRE = /^(row|container|container\-(fluid|sm|md|lg|xl|xxl))$/;
 
   listenForCommands();
 
