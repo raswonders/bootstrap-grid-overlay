@@ -223,12 +223,16 @@
     overlayElem.style.left = left;
   }
 
-  window.addEventListener("resize", function(event) {
-    overlay.redrawAll(overlay);
-  });
-  window.addEventListener("scroll", function(event) {
-    overlay.redrawAll(overlay);
-  });
+  function redrawAllOn(...events) {
+    events.forEach(event => {
+      window.addEventListener(event, function(e) {
+        overlay.redrawAll(overlay);
+      });
+    })
+  }
+
+  redrawAllOn("scroll", "resize");
+
   window.addEventListener("unload", () => {
     localStorage.removeItem("bootstrap-grid-overlay");
   });
