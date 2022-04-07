@@ -11,16 +11,11 @@
     }
 
     list() {
-      // Return info about element and whether its overlay is being shown
       let overlayDetails = [];
 
       for (let [realElem, overlayElem] of this.elementMap) {
-        let name = "unknown";
-        realElem.classList.forEach(cls => {
-          if (bootstrapRE.test(cls)) {
-            name = cls;
-          }
-        });
+        const name = getOverlayName(realElem);
+      
         if (overlayElem) {
           overlayDetails.push([name, true, overlayElem.classList.contains("expanded")]);
         } else {
@@ -86,6 +81,18 @@
     '[class^="container"], [class^="row"]'
   );
   let overlay = new Overlay(bootstrapElements);
+
+  function getOverlayName(element) {
+    let name;
+
+    element.classList.forEach(cls => {
+      if (bootstrapRE.test(cls)) {
+        name = cls;
+      }
+    });
+
+    return name
+  }
 
   function createElementMap(elements) {
     const map = new Map();
