@@ -65,9 +65,7 @@
     redrawAll() {
       setTimeout(() => {
         for (let [realElem, overlayElem] of this.elementMap.entries()) {
-          if (realElem && overlayElem) {
-            positionOverlayElement(realElem, overlayElem);
-          }
+          if (overlayElem) positionOverlayElement(realElem, overlayElem)
         }
       }, 0);
     }
