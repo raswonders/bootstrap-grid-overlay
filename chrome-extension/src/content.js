@@ -33,6 +33,7 @@
 
     expand(index) {
       let element = this.getOverlayElement(index);
+
       element.classList.add("expanded");
       this.updateDOM();
     }
@@ -48,9 +49,9 @@
     remove(index) {
       let element = this.getRealElement(index);
       let overlayElement = this.getOverlayElement(index);
-      overlayElement.parentNode.removeChild(overlayElement);
+
+      removeFromDOM(overlayElement);
       this.elementMap.set(element, null);
-      this.updateDOM();
     }
 
     getRealElement(index) {
@@ -78,6 +79,10 @@
     '[class^="container"], [class^="row"]'
   );
   let overlay = new Overlay(bootstrapElements);
+
+  function removeFromDOM(element) {
+    element.parentNode.removeChild(element);
+  }
 
   function getOverlayName(element) {
     const bootstrapRE = /^(row|container|container\-(fluid|sm|md|lg|xl|xxl))$/;
