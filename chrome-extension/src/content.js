@@ -15,12 +15,10 @@
 
       for (let [realElem, overlayElem] of this.elementMap) {
         const name = getOverlayName(realElem);
-      
-        if (overlayElem) {
-          overlayDetails.push([name, true, overlayElem.classList.contains("expanded")]);
-        } else {
-          overlayDetails.push([name, false]);
-        }
+        const hasOverlay = Boolean(overlayElem);
+        const isExpanded = hasOverlay ? overlayElem.classList.contains("expanded") : false;
+
+        overlayDetails.push([name, hasOverlay, isExpanded]);
       }
       // "all" checkbox state
       overlayDetails.push(["all", this.allIsChecked]);
