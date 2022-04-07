@@ -65,7 +65,7 @@
     redrawAll() {
       setTimeout(() => {
         for (let [realElem, overlayElem] of this.elementMap.entries()) {
-          if (overlayElem) positionOverlayElement(realElem, overlayElem)
+          if (overlayElem) redrawOverlay(realElem, overlayElem)
         }
       }, 0);
     }
@@ -205,7 +205,7 @@
   }
 
   /* Updates position of single overlay */
-  function positionOverlayElement(realElem, overlayElem) {
+  function redrawOverlay(realElem, overlayElem) {
     /* learns position of a real element */
     realElemRect = realElem.getBoundingClientRect();
     realElemBorderWidth = (realElemRect.width - realElem.clientWidth) / 2;
