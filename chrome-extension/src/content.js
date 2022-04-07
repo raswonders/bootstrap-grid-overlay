@@ -1,6 +1,4 @@
 (function() {
-  const bootstrapRE = /^(row|container|container\-(fluid|sm|md|lg|xl|xxl))$/;
-
   listenForCommands();
 
   class Overlay {
@@ -20,7 +18,7 @@
 
         overlayDetails.push([name, hasOverlay, isExpanded]);
       }
-      // "all" checkbox state
+      
       overlayDetails.push(["all", this.allIsChecked]);
       return overlayDetails;
     }
@@ -81,6 +79,7 @@
   let overlay = new Overlay(bootstrapElements);
 
   function getOverlayName(element) {
+    const bootstrapRE = /^(row|container|container\-(fluid|sm|md|lg|xl|xxl))$/;
     let name;
 
     element.classList.forEach(cls => {
