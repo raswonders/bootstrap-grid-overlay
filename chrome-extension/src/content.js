@@ -204,22 +204,19 @@
     return document.getElementById("grid-overlay").appendChild(gridOverlay);
   }
 
-  /* Updates position of single overlay */
   function redrawOverlay(realElem, overlayElem) {
-    /* learns position of a real element */
-    realElemRect = realElem.getBoundingClientRect();
-    realElemBorderWidth = (realElemRect.width - realElem.clientWidth) / 2;
+    const realElemRect = realElem.getBoundingClientRect();
+    const realElemBorderWidth = (realElemRect.width - realElem.clientWidth) / 2;
+    const isExpanded = overlayElem.classList.contains("expanded");
+    const width = `${realElem.clientWidth}px`;
+    const height = isExpanded ? '100vh' : `${realElem.clientHeight}px`;
+    const top = isExpanded ? '0px' : `${realElemRect.top + realElemBorderWidth}px`;
+    const left = `${realElemRect.left + realElemBorderWidth}px`;
 
-    /* positions overlay element */
-    if (overlayElem.classList.contains("expanded")) {
-      overlayElem.style.height = `100vh`;
-      overlayElem.style.top = `0px`;
-    } else {
-      overlayElem.style.top = `${realElemRect.top + realElemBorderWidth}px`;
-      overlayElem.style.height = `${realElem.clientHeight}px`;
-    }
-    overlayElem.style.width = `${realElem.clientWidth}px`;
-    overlayElem.style.left = `${realElemRect.left + realElemBorderWidth}px`;
+    overlayElem.style.width = width;
+    overlayElem.style.height = height;
+    overlayElem.style.top = top;
+    overlayElem.style.left = left;
   }
 
   window.addEventListener("resize", function(event) {
