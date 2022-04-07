@@ -158,21 +158,6 @@
     }
   }
 
-  function cleanUp() {
-    /* remove grid element from DOM */
-    let overlayEl = document.querySelector("#grid-overlay");
-    if (overlayEl) {
-      overlayEl.parentNode.removeChild(overlayEl);
-    }
-
-    /* remove event listeners from DOM */
-    window.removeEventListener("resize", overlay.redrawAll);
-    window.removeEventListener("scroll", overlay.redrawAll);
-
-    /* clear localStorage */
-    localStorage.removeItem("bootstrap-grid-overlay");
-  }
-
   /* Creates row overlay */
   function createRowOverlay(rowElem) {
     let allowedClassesRegExp = /\b(no-gutters|gx-[0-5]|g-((sm|md|lg|xl|xxl)-)?[0-5]|row)\b/;
@@ -232,8 +217,4 @@
   }
 
   redrawAllOn("scroll", "resize");
-
-  window.addEventListener("unload", () => {
-    localStorage.removeItem("bootstrap-grid-overlay");
-  });
 })();
