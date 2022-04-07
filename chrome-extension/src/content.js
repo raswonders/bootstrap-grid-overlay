@@ -7,7 +7,7 @@
     constructor(bootstrapElements) {
       this.elementMap = createElementMap(bootstrapElements);
       this.rootElement = createOverlayRoot("grid-overlay");
-      this.allState = false;
+      this.allIsChecked = false;
     }
 
     list() {
@@ -28,7 +28,7 @@
         }
       }
       // "all" checkbox state
-      mirror.push(["all", this.allState]);
+      mirror.push(["all", this.allIsChecked]);
       return mirror;
     }
 
@@ -46,11 +46,11 @@
     }
 
     addAll() {
-      overlay.allState = true;
+      overlay.allIsChecked = true;
     }
 
     removeAll() {
-      overlay.allState = false;
+      overlay.allIsChecked = false;
     }
 
     remove(index) {
