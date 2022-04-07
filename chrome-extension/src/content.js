@@ -62,10 +62,8 @@
       return Array.from(this.elementMap.values())[index];
     }
 
-    redrawAll(updateOverlayTimeout = 0) {
-      /* resets timeout of scheduled update */
-      clearTimeout(updateOverlayTimeout);
-      updateOverlayTimeout = setTimeout(() => {
+    redrawAll() {
+      setTimeout(() => {
         for (let [realElem, overlayElem] of this.elementMap.entries()) {
           if (realElem && overlayElem) {
             positionOverlayElement(realElem, overlayElem);
