@@ -1,6 +1,4 @@
 (function() {
-  listenForCommands();
-
   class Overlay {
     constructor(bootstrapElements) {
       this.elementMap = createElementMap(bootstrapElements);
@@ -14,11 +12,13 @@
       for (let [realElem, overlayElem] of this.elementMap) {
         const name = getOverlayName(realElem);
         const hasOverlay = Boolean(overlayElem);
-        const isExpanded = hasOverlay ? overlayElem.classList.contains("expanded") : false;
+        const isExpanded = hasOverlay
+          ? overlayElem.classList.contains("expanded")
+          : false;
 
         overlayDetails.push([name, hasOverlay, isExpanded]);
       }
-      
+
       overlayDetails.push(["all", this.allIsChecked]);
       return overlayDetails;
     }
@@ -65,19 +65,14 @@
     redrawAll() {
       setTimeout(() => {
         for (let [realElem, overlayElem] of this.elementMap.entries()) {
-          if (overlayElem) redrawOverlay(realElem, overlayElem)
+          if (overlayElem) redrawOverlay(realElem, overlayElem);
         }
       }, 0);
     }
   }
 
-  let bsElements = findBootstrapElements();
-  const overlay = new Overlay(bsElements);
-
   function findBootstrapElements() {
-    return document.querySelectorAll(
-      '[class^="container"], [class^="row"]'
-    );
+    return document.querySelectorAll('[class^="container"], [class^="row"]');
   }
 
   function removeFromDOM(element) {
@@ -94,7 +89,7 @@
       }
     });
 
-    return name
+    return name;
   }
 
   function createElementMap(elements) {
@@ -120,9 +115,13 @@
   }
 
   function listenForCommands() {
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    chrome.runtime.onMessage.addListener(function(
+      request,
+      sender,
+      sendResponse
+    ) {
       let response = { success: true };
-  
+
       switch (request.message) {
         case "list":
           response.list = overlay.list();
@@ -144,7 +143,7 @@
           overlay.removeAll();
           break;
       }
-  
+
       sendResponse(response);
       return true;
     });
@@ -198,8 +197,10 @@
     const realElemBorderWidth = (realElemRect.width - realElem.clientWidth) / 2;
     const isExpanded = overlayElem.classList.contains("expanded");
     const width = `${realElem.clientWidth}px`;
-    const height = isExpanded ? '100vh' : `${realElem.clientHeight}px`;
-    const top = isExpanded ? '0px' : `${realElemRect.top + realElemBorderWidth}px`;
+    const height = isExpanded ? "100vh" : `${realElem.clientHeight}px`;
+    const top = isExpanded
+      ? "0px"
+      : `${realElemRect.top + realElemBorderWidth}px`;
     const left = `${realElemRect.left + realElemBorderWidth}px`;
 
     overlayElem.style.width = width;
@@ -213,8 +214,12 @@
       window.addEventListener(event, function(e) {
         overlay.redrawAll(overlay);
       });
-    })
+    });
   }
 
+  let bsElements = findBootstrapElements();
+  const overlay = new Overlay(bsElements);
+
+  listenForCommands();
   redrawAllOn("scroll", "resize");
 })();
