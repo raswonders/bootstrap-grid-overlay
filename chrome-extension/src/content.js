@@ -71,10 +71,14 @@
     }
   }
 
-  let bootstrapElements = document.querySelectorAll(
-    '[class^="container"], [class^="row"]'
-  );
-  let overlay = new Overlay(bootstrapElements);
+  let bsElements = findBootstrapElements();
+  const overlay = new Overlay(bsElements);
+
+  function findBootstrapElements() {
+    return document.querySelectorAll(
+      '[class^="container"], [class^="row"]'
+    );
+  }
 
   function removeFromDOM(element) {
     element.parentNode.removeChild(element);
