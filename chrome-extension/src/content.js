@@ -25,15 +25,16 @@
 
     add(index) {
       let element = this.getRealElement(index);
+
       this.elementMap.set(element, createOverlayElement(element));
-      this.updateOverlays();
+      this.updateDOM();
       element.scrollIntoView();
     }
 
     expand(index) {
       let element = this.getOverlayElement(index);
       element.classList.add("expanded");
-      this.updateOverlays();
+      this.updateDOM();
     }
 
     addAll() {
@@ -49,7 +50,7 @@
       let overlayElement = this.getOverlayElement(index);
       overlayElement.parentNode.removeChild(overlayElement);
       this.elementMap.set(element, null);
-      this.updateOverlays();
+      this.updateDOM();
     }
 
     getRealElement(index) {
@@ -60,7 +61,7 @@
       return Array.from(this.elementMap.values())[index];
     }
 
-    updateOverlays(updateOverlayTimeout = 0) {
+    updateDOM(updateOverlayTimeout = 0) {
       /* resets timeout of scheduled update */
       clearTimeout(updateOverlayTimeout);
       updateOverlayTimeout = setTimeout(() => {
@@ -160,8 +161,8 @@
     }
 
     /* remove event listeners from DOM */
-    window.removeEventListener("resize", overlay.updateOverlays);
-    window.removeEventListener("scroll", overlay.updateOverlays);
+    window.removeEventListener("resize", overlay.updateDOM);
+    window.removeEventListener("scroll", overlay.updateDOM);
 
     /* clear localStorage */
     localStorage.removeItem("bootstrap-grid-overlay");
@@ -221,10 +222,10 @@
   }
 
   window.addEventListener("resize", function(event) {
-    overlay.updateOverlays(overlay);
+    overlay.updateDOM(overlay);
   });
   window.addEventListener("scroll", function(event) {
-    overlay.updateOverlays(overlay);
+    overlay.updateDOM(overlay);
   });
   window.addEventListener("unload", () => {
     localStorage.removeItem("bootstrap-grid-overlay");
