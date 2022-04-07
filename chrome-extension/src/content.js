@@ -12,7 +12,7 @@
 
     list() {
       // Return info about element and whether its overlay is being shown
-      let mirror = [];
+      let overlayDetails = [];
 
       for (let [realElem, overlayElem] of this.elementMap) {
         let name = "unknown";
@@ -22,14 +22,14 @@
           }
         });
         if (overlayElem) {
-          mirror.push([name, true, overlayElem.classList.contains("expanded")]);
+          overlayDetails.push([name, true, overlayElem.classList.contains("expanded")]);
         } else {
-          mirror.push([name, false]);
+          overlayDetails.push([name, false]);
         }
       }
       // "all" checkbox state
-      mirror.push(["all", this.allIsChecked]);
-      return mirror;
+      overlayDetails.push(["all", this.allIsChecked]);
+      return overlayDetails;
     }
 
     add(index) {
