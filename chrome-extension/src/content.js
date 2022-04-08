@@ -39,6 +39,15 @@
       this.rootElement.appendChild(element);
     }
 
+    detachFromDOM(element) {
+      element.parentNode.removeChild(element);
+  
+      if (this.rootElement.children.length === 0) {
+        this.rootElement.parentNode.removeChild(this.rootElement);
+        this.rootElement = null;
+      }
+    }
+
     expand(index) {
       let element = this.getOverlayElement(index);
 
@@ -58,7 +67,7 @@
       let element = this.getRealElement(index);
       let overlayElement = this.getOverlayElement(index);
 
-      detachFromDOM(overlayElement);
+      this.detachFromDOM(overlayElement);
       this.elementMap.set(element, null);
     }
 
@@ -81,10 +90,6 @@
 
   function findBootstrapElements() {
     return document.querySelectorAll('[class^="container"], [class^="row"]');
-  }
-
-  function detachFromDOM(element) {
-    element.parentNode.removeChild(element);
   }
 
   function getOverlayName(element) {
