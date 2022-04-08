@@ -174,21 +174,21 @@
 
   function createRowOverlay(rowElem) {
     const allowedClassRE = /\b(no-gutters|gx-[0-5]|g-((sm|md|lg|xl|xxl)-)?[0-5]|row)\b/;
-    gridOverlay = document.createElement("div");
+    overlayElem = document.createElement("div");
 
-    copyClasses(rowElem, gridOverlay, allowedClassRE);
-    gridOverlay.classList.add("grid-overlay-row");
-    createColumns(gridOverlay);
-    return document.getElementById("grid-overlay").appendChild(gridOverlay);
+    copyClasses(rowElem, overlayElem, allowedClassRE);
+    overlayElem.classList.add("grid-overlay-row");
+    createColumns(overlayElem);
+    return document.getElementById("grid-overlay").appendChild(overlayElem);
   }
 
   function createContainerOverlay(containerElem) {
     const allowedClassRE = /\b(container|container-(fluid|sm|md|lg|xl|xxl))\b/;
-    gridOverlay = document.createElement("div");
+    overlayElem = document.createElement("div");
     
-    copyClasses(containerElem, gridOverlay, allowedClassRE);
-    gridOverlay.classList.add("grid-overlay-container");
-    return document.getElementById("grid-overlay").appendChild(gridOverlay);
+    copyClasses(containerElem, overlayElem, allowedClassRE);
+    overlayElem.classList.add("grid-overlay-container");
+    return document.getElementById("grid-overlay").appendChild(overlayElem);
   }
 
   function redrawOverlay(realElem, overlayElem) {
