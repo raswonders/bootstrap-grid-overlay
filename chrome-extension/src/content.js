@@ -162,20 +162,23 @@
     });
   }
 
+  function createColumns(element) {
+    for (let i = 1; i <= 12; i++) {
+      element.innerHTML += `
+        <div class="grid-overlay-col col-1">
+          <div>${i}</div>
+        </div>
+      `
+    }
+  }
+
   function createRowOverlay(rowElem) {
     const allowedClassRE = /\b(no-gutters|gx-[0-5]|g-((sm|md|lg|xl|xxl)-)?[0-5]|row)\b/;
     gridOverlay = document.createElement("div");
 
     copyClasses(rowElem, gridOverlay, allowedClassRE);
     gridOverlay.classList.add("grid-overlay-row");
-    /* Creates overlay columns */
-    for (let i = 1; i <= 12; i++) {
-      columnEl = document.createElement("div");
-      columnEl.innerHTML = `<div>${i}</div>`;
-      columnEl.classList.add("grid-overlay-col");
-      columnEl.classList.add("col-1");
-      gridOverlay.appendChild(columnEl);
-    }
+    createColumns(gridOverlay);
     return document.getElementById("grid-overlay").appendChild(gridOverlay);
   }
 
