@@ -158,11 +158,11 @@
 
   /* Creates row overlay */
   function createRowOverlay(rowElem) {
-    let allowedClassesRegExp = /\b(no-gutters|gx-[0-5]|g-((sm|md|lg|xl|xxl)-)?[0-5]|row)\b/;
+    const allowedClassRE = /\b(no-gutters|gx-[0-5]|g-((sm|md|lg|xl|xxl)-)?[0-5]|row)\b/;
     gridOverlay = document.createElement("div");
     /* Copies classes from real row to overlay */
     rowElem.classList.forEach(cls => {
-      if (allowedClassesRegExp.test(cls)) {
+      if (allowedClassRE.test(cls)) {
         gridOverlay.classList.add(cls);
       }
     });
@@ -179,11 +179,11 @@
   }
 
   function createContainerOverlay(containerElem) {
-    let allowedClassesRegExp = /\b(container|container-(fluid|sm|md|lg|xl|xxl))\b/;
+    const allowedClassRE = /\b(container|container-(fluid|sm|md|lg|xl|xxl))\b/;
     gridOverlay = document.createElement("div");
     /* Copies classes from real el to overlay */
     containerElem.classList.forEach(cls => {
-      if (allowedClassesRegExp.test(cls)) {
+      if (allowedClassRE.test(cls)) {
         gridOverlay.classList.add(cls);
       }
     });
