@@ -150,11 +150,10 @@
   }
 
   function createOverlayElement(element) {
-    if (element.classList.contains("row")) {
-      return createRowOverlay(element);
-    } else {
-      return createContainerOverlay(element);
-    }
+    const isRow = element.classList.contains("row");
+
+    if (isRow) return createRowOverlay(element);
+    return createContainerOverlay(element);
   }
 
   /* Creates row overlay */
