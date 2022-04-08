@@ -58,7 +58,7 @@
       let element = this.getRealElement(index);
       let overlayElement = this.getOverlayElement(index);
 
-      removeFromDOM(overlayElement);
+      detachFromDOM(overlayElement);
       this.elementMap.set(element, null);
     }
 
@@ -83,7 +83,7 @@
     return document.querySelectorAll('[class^="container"], [class^="row"]');
   }
 
-  function removeFromDOM(element) {
+  function detachFromDOM(element) {
     element.parentNode.removeChild(element);
   }
 
