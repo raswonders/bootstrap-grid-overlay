@@ -27,9 +27,10 @@
 
     add(index) {
       let element = this.getRealElement(index);
-      let overlayElement = this.createOverlayElement(element);
-
+      let overlayElement = createOverlayElement(element);
+      
       this.elementMap.set(element, overlayElement);
+      this.rootElement.appendChild(overlayElement);
       this.redrawAll();
       element.scrollIntoView();
     }
@@ -63,19 +64,6 @@
 
     getOverlayElement(index) {
       return Array.from(this.elementMap.values())[index];
-    }
-
-    createOverlayElement(element) {
-      const isRow = element.classList.contains("row");
-      let overlayElement;
-  
-      if (isRow) {
-        overlayElement = createRowOverlay(element);
-      } else {
-        overlayElement = createContainerOverlay(element);
-      }
-      
-      return this.rootElement.appendChild(overlayElement)
     }
 
     redrawAll() {
@@ -179,6 +167,13 @@
         </div>
       `
     }
+  }
+
+  function createOverlayElement(element) {
+    const isRow = element.classList.contains("row");
+
+    if (isRow) return createRowOverlay(element);
+    return createContainerOverlay(element);
   }
 
   function createRowOverlay(rowElem) {
