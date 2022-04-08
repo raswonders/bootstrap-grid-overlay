@@ -156,16 +156,17 @@
     return createContainerOverlay(element);
   }
 
-  /* Creates row overlay */
+  function copyClasses(sourceElement, destElement, classFilterRE) {
+    sourceElement.classList.forEach(cls => {
+      if (classFilterRE.test(cls)) destElement.classList.add(cls);
+    });
+  }
+
   function createRowOverlay(rowElem) {
     const allowedClassRE = /\b(no-gutters|gx-[0-5]|g-((sm|md|lg|xl|xxl)-)?[0-5]|row)\b/;
     gridOverlay = document.createElement("div");
-    /* Copies classes from real row to overlay */
-    rowElem.classList.forEach(cls => {
-      if (allowedClassRE.test(cls)) {
-        gridOverlay.classList.add(cls);
-      }
-    });
+
+    copyClasses(rowElem, gridOverlay, allowedClassRE);
     gridOverlay.classList.add("grid-overlay-row");
     /* Creates overlay columns */
     for (let i = 1; i <= 12; i++) {
@@ -181,12 +182,8 @@
   function createContainerOverlay(containerElem) {
     const allowedClassRE = /\b(container|container-(fluid|sm|md|lg|xl|xxl))\b/;
     gridOverlay = document.createElement("div");
-    /* Copies classes from real el to overlay */
-    containerElem.classList.forEach(cls => {
-      if (allowedClassRE.test(cls)) {
-        gridOverlay.classList.add(cls);
-      }
-    });
+    
+    copyClasses(containerElem, gridOverlay, allowedClassRE);
     gridOverlay.classList.add("grid-overlay-container");
     return document.getElementById("grid-overlay").appendChild(gridOverlay);
   }
