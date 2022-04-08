@@ -25,8 +25,9 @@
 
     add(index) {
       let element = this.getRealElement(index);
+      let overlayElement = this.createOverlayElement(element);
 
-      this.elementMap.set(element, createOverlayElement(element));
+      this.elementMap.set(element, overlayElement);
       this.redrawAll();
       element.scrollIntoView();
     }
@@ -60,6 +61,19 @@
 
     getOverlayElement(index) {
       return Array.from(this.elementMap.values())[index];
+    }
+
+    createOverlayElement(element) {
+      const isRow = element.classList.contains("row");
+      let overlayElement;
+  
+      if (isRow) {
+        overlayElement = createRowOverlay(element);
+      } else {
+        overlayElement = createContainerOverlay(element);
+      }
+      
+      return this.rootElement.appendChild(overlayElement)
     }
 
     redrawAll() {
@@ -149,13 +163,6 @@
     });
   }
 
-  function createOverlayElement(element) {
-    const isRow = element.classList.contains("row");
-
-    if (isRow) return createRowOverlay(element);
-    return createContainerOverlay(element);
-  }
-
   function copyClasses(sourceElement, destElement, classFilterRE) {
     sourceElement.classList.forEach(cls => {
       if (classFilterRE.test(cls)) destElement.classList.add(cls);
@@ -179,7 +186,7 @@
     copyClasses(rowElem, overlayElem, allowedClassRE);
     overlayElem.classList.add("grid-overlay-row");
     createColumns(overlayElem);
-    return document.getElementById("grid-overlay").appendChild(overlayElem);
+    return overlayElem;
   }
 
   function createContainerOverlay(containerElem) {
@@ -188,7 +195,7 @@
     
     copyClasses(containerElem, overlayElem, allowedClassRE);
     overlayElem.classList.add("grid-overlay-container");
-    return document.getElementById("grid-overlay").appendChild(overlayElem);
+    return overlayElem;
   }
 
   function redrawOverlay(realElem, overlayElem) {
