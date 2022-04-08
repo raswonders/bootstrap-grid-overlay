@@ -4,7 +4,6 @@
   class Overlay {
     constructor(bootstrapElements) {
       this.elementMap = createElementMap(bootstrapElements);
-      this.rootElement = createOverlayRoot("grid-overlay");
       this.allIsChecked = false;
     }
 
@@ -30,9 +29,14 @@
       let overlayElement = createOverlayElement(element);
       
       this.elementMap.set(element, overlayElement);
-      this.rootElement.appendChild(overlayElement);
+      this.attachToDOM(overlayElement)
       this.redrawAll();
       element.scrollIntoView();
+    }
+
+    attachToDOM(element) {
+      if (!this.rootElement) this.rootElement = createOverlayRoot("grid-overlay");
+      this.rootElement.appendChild(element);
     }
 
     expand(index) {
