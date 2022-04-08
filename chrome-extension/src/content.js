@@ -203,7 +203,9 @@
     const realElemBorderWidth = (realElemRect.width - realElem.clientWidth) / 2;
     const isExpanded = overlayElem.classList.contains("expanded");
     const width = `${realElem.clientWidth}px`;
-    const height = isExpanded ? "100vh" : `${realElem.clientHeight}px`;
+    const height = isExpanded
+      ? "100vh" 
+      : `${realElem.clientHeight}px`;
     const top = isExpanded
       ? "0px"
       : `${realElemRect.top + realElemBorderWidth}px`;
