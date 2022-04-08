@@ -1,4 +1,6 @@
 (function() {
+  "use strict";
+
   class Overlay {
     constructor(bootstrapElements) {
       this.elementMap = createElementMap(bootstrapElements);
@@ -181,7 +183,7 @@
 
   function createRowOverlay(rowElem) {
     const allowedClassRE = /\b(no-gutters|gx-[0-5]|g-((sm|md|lg|xl|xxl)-)?[0-5]|row)\b/;
-    overlayElem = document.createElement("div");
+    const overlayElem = document.createElement("div");
 
     copyClasses(rowElem, overlayElem, allowedClassRE);
     overlayElem.classList.add("grid-overlay-row");
@@ -191,7 +193,7 @@
 
   function createContainerOverlay(containerElem) {
     const allowedClassRE = /\b(container|container-(fluid|sm|md|lg|xl|xxl))\b/;
-    overlayElem = document.createElement("div");
+    const overlayElem = document.createElement("div");
     
     copyClasses(containerElem, overlayElem, allowedClassRE);
     overlayElem.classList.add("grid-overlay-container");
