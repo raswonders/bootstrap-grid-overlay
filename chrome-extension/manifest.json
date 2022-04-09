@@ -1,11 +1,16 @@
 {
-    "name": "Bootstrap grid overlay",
-    "description": "Displays visual overlay for default Bootstrap grid elements",
-    "version": "0.2.0",
-    "manifest_version": 3,
-    "permissions": ["activeTab", "scripting"],
-    "host_permissions": ["<all_urls>"],
-    "action": {
-      "default_popup": "src/popup.html"
-    }
+  "name": "Bootstrap grid overlay",
+  "description": "Displays visual overlay for default Bootstrap grid elements",
+  "version": "0.2.0",
+  "manifest_version": 3,
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "icons": {
+    "16": "src/img/icon16.png",
+    "48": "src/img/icon48.png",
+    "128": "src/img/icon128.png"
+  },
+  "action": {
+    "default_popup": "src/popup.html"
   }
+}
