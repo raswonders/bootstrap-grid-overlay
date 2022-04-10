@@ -1,6 +1,6 @@
 (async function() {
   "use strict";
-  
+
   window.resizeTo(300, 300);
   const tab = await getCurrentTabId();
 
@@ -147,9 +147,10 @@
 
   function addAllBtnListener(tabId) {
     const btnWrapper = document.querySelector(".all-btn-wrapper");
-    btnWrapper.addEventListener("click", function(event) {
-      toggleAllBtn(this, tabId);
-    });
+    if (btnWrapper)
+      btnWrapper.addEventListener("click", function(event) {
+        toggleAllBtn(this, tabId);
+      });
   }
 
   function resetAllBtn() {
