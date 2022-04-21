@@ -1,6 +1,6 @@
 {
-  "name": "Bootstrap grid overlay",
-  "description": "Displays visual overlay for default Bootstrap grid elements",
+  "name": "Bootstrap grid viewer",
+  "description": "Detects Bootstrap Grid elements on a page and displays visual overlay for them",
   "version": "0.2.0",
   "manifest_version": 3,
   "permissions": ["activeTab", "scripting"],
