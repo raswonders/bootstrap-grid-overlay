@@ -1,5 +1,5 @@
 {
-  "name": "Bootstrap grid viewer",
+  "name": "Bootstrap Grid Viewer",
   "description": "Detects Bootstrap Grid elements on a page and displays visual overlay for them",
   "version": "0.2.1",
   "manifest_version": 3,
